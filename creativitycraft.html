@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreativityCraft | Versions</title>
+    <style>
+        /* General Reset */
+        body, html {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Using the same background as the main portal's left side */
+            background-image: 
+                linear-gradient(rgba(13, 71, 161, 0.75), rgba(13, 71, 161, 0.75)), 
+                url('https://images.unsplash.com/photo-1519681393784-d120267933ba');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Central White Panel */
+        .main-panel {
+            background: rgba(255, 255, 255, 0.98);
+            width: 90%;
+            max-width: 850px;
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            text-align: center;
+            margin: 40px 20px;
+        }
+
+        .logo-container {
+            margin-bottom: 25px;
+        }
+
+        .logo-img {
+            max-width: 250px;
+            height: auto;
+            /* Using a placeholder - replace with your actual logo URL */
+            content: url('https://via.placeholder.com/250x100?text=CREATIVITY+CRAFT');
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ccc, transparent);
+            margin: 30px 0;
+        }
+
+        /* Expandable Options (Accordions) */
+        details {
+            background: #ffffff;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
+            text-align: left;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        details[open] {
+            border-color: #0d47a1;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        summary {
+            padding: 20px 25px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #333;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            outline: none;
+        }
+
+        summary::-webkit-details-marker { display: none; }
+
+        summary::after {
+            content: '+';
+            font-size: 1.4rem;
+            color: #0d47a1;
+            transition: transform 0.3s;
+        }
+
+        details[open] summary::after {
+            content: '−';
+            transform: rotate(180deg);
+        }
+
+        /* Content inside expansion */
+        .expansion-grid {
+            display: grid;
+            grid-template-columns: 120px 1fr 160px;
+            gap: 25px;
+            padding: 20px 25px;
+            align-items: center;
+            background: #fcfcfc;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .version-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+            background: #eee;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .details-mid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .details-mid p { margin: 0; }
+
+        .details-mid span {
+            font-weight: bold;
+            color: #0d47a1;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            margin-right: 5px;
+        }
+
+        /* Download Button */
+        .dl-btn {
+            background: #0d47a1;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .dl-btn:hover {
+            background: #1565c0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(13, 71, 161, 0.3);
+        }
+
+        /* Footer Return Button */
+        .panel-footer {
+            margin-top: 20px;
+        }
+
+        .back-home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 30px;
+            background-color: transparent;
+            color: #0d47a1;
+            border: 2px solid #0d47a1;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .back-home-btn:hover {
+            background-color: #0d47a1;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Logic */
+        @media (max-width: 650px) {
+            .expansion-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .version-img { margin: 0 auto; }
+            .dl-btn { width: 100%; box-sizing: border-box; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-panel">
+        <div class="logo-container">
+            <img src="" alt="CreativityCraft Logo" class="logo-img">
+        </div>
+        
+        <hr>
+
+        <details>
+            <summary>Version 1.4.7</summary>
+            <div class="expansion-grid">
+                <img src="https://via.placeholder.com/100" alt="v1.4.7 Preview" class="version-img">
+                <div class="details-mid">
+                    <p><span>Size:</span> 616.7 MB</p>
+                    <p><span>Worlds:</span> Mainworld, Superflat</p>
+                </div>
+                <a href="https://external-link.com" class="dl-btn" target="_blank">Coming Soon</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>Version 1.5.2</summary>
+            <div class="expansion-grid">
+                <img src="https://via.placeholder.com/100" alt="v1.5.2 Preview" class="version-img">
+                <div class="details-mid">
+                    <p><span>Size:</span> 1.3 Gb</p>
+                    <p><span>Worlds:</span> List Coming Soon</p>
+                </div>
+                <a href="https://external-link.com" class="dl-btn" target="_blank">Coming Soon</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>Version 1.6.4</summary>
+            <div class="expansion-grid">
+                <img src="https://via.placeholder.com/100" alt="v1.6.4 Preview" class="version-img">
+                <div class="details-mid">
+                    <p><span>Size:</span> 612.2 MB</p>
+                    <p><span>Worlds:</span> List Coming Soon</p>
+                </div>
+                <a href="https://external-link.com" class="dl-btn" target="_blank">Coming Soon</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>Version 1.7.10</summary>
+            <div class="expansion-grid">
+                <img src="https://via.placeholder.com/100" alt="v1.7.10 Preview" class="version-img">
+                <div class="details-mid">
+                    <p><span>Size:</span> 1.3 Gb</p>
+                    <p><span>Worlds:</span>List Coming Soon</p>
+                </div>
+                <a href="https://external-link.com" class="dl-btn" target="_blank">Coming Soon</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>Version 1.8.1</summary>
+            <div class="expansion-grid">
+                <img src="https://via.placeholder.com/100" alt="v1.8.1 Preview" class="version-img">
+                <div class="details-mid">
+                    <p><span>Size:</span> 352.7 MB</p>
+                    <p><span>Worlds:</span> List Coming Soon</p>
+                </div>
+                <a href="https://external-link.com" class="dl-btn" target="_blank">Coming Soon</a>
+            </div>
+        </details>
+        
+        <details>
+            <summary>How to play</summary>
+            <div class="expansion-grid">
+                <img src="https://via.placeholder.com/100" alt="How to play old versions" class="version-img">
+                <div class="details-mid">
+                    <p><span>Tutorial</span>Coming Soon</p>
+                    <p><span>1.</span>Coming soon</p>
+                </div>
+            </div>
+        </details>
+
+        <div class="panel-footer">
+            <hr>
+            <a href="https://adelando.net" class="back-home-btn">
+                <span>🏠</span> Return to Portal
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
