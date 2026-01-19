@@ -3,67 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404</title>
+    <title>404 - page not found</title>
     <style>
         body, html {
             height: 100%;
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* Background Image */
-            background: url('https://images.unsplash.com/photo-1518655061710-5ccf392c275a?auto=format&fit=crop&q=80&w=2000') no-repeat center center fixed;
-            background-size: cover;
+            font-family: 'Courier New', Courier, monospace;
+            Background-color: #ffffff;
+           
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }
 
         .container {
-            background-color: rgba(255, 255, 255, 0.95);
+            background-color: rgba(10, 10, 10, 0.94);
             width: 85%;
-            max-width: 700px;
-            padding: 50px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            max-width: 850px;
+            padding: 60px;
+            border-radius: 4px;
+            box-shadow: 0 0px 10px rgba(0,0,0,0.8);
             text-align: left;
+            border-left: 6px solid #00ff41;
         }
 
         h1 {
-            font-size: 80px;
+            font-size: 110px;
             margin: 0;
-            color: #1a1a1a;
-            line-height: 1;
+            font-weight: 900;
+            letter-spacing: -4px;
+            color: #fff;
         }
 
-        /* The Subject Line - Hidden by default */
+        h4 {
+            font-size: 18px;
+            margin: 0;
+            font-weight: 400;
+            letter-spacing: -2px;
+            color: #fff;
+        }
+
+
+        .typewriter-box {
+            margin-top: 25px;
+            min-height: 100px; 
+        }
+
         #subject-line {
             font-size: 24px;
-            color: #444;
-            margin-top: 25px;
-            display: block;
-            opacity: 0; /* Start invisible */
-            transition: opacity 1s ease-in-out; /* Smooth fade effect */
+            color: #00ff41;
+            display: inline;
+            line-height: 1.5;
         }
 
-        /* Class to trigger the fade */
-        #subject-line.visible {
-            opacity: 1;
-        }
-
-        .home-button {
+        .cursor {
             display: inline-block;
-            margin-top: 40px;
-            padding: 15px 30px;
-            background-color: #333;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: 600;
-            transition: transform 0.2s, background 0.2s;
+            width: 12px;
+            height: 24px;
+            background-color: #00ff41;
+            margin-left: 8px;
+            vertical-align: middle;
+            animation: blink 1s infinite;
         }
 
-        .home-button:hover {
-            background-color: #000;
-            transform: translateY(-2px);
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .button-group {
+            margin-top: 40px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            background-color: transparent;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 13px;
+        }
+
+        .btn-home { color: #fff; border: 1px solid #fff; }
+        .btn-home:hover { background-color: #fff; color: #000; }
+
+        .btn-retry { color: #00ff41; border: 1px solid #00ff41; }
+        .btn-retry:hover { 
+            background-color: #00ff41; 
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
         }
     </style>
 </head>
@@ -71,42 +108,64 @@
 
     <div class="container">
         <h1>404</h1>
-        <span id="subject-line"></span>
+        <h4>page not found</h4>
+        <div class="typewriter-box">
+            <span id="subject-line"></span><span class="cursor"></span>
+        </div>
         
-        <br>
-        
-        <a href="/" class="home-button">Back to Reality</a>
+        <div class="button-group">
+            <a href="/" class="btn btn-home">Return to Homepage</a>
+            <button onclick="pickAndType()" class="btn btn-retry">Try again?</button>
+        </div>
     </div>
 
     <script>
-        async function fetchNo() {
-            const subjectElement = document.getElementById('subject-line');
-            const proxy = "https://corsproxy.io/?";
-            const apiUrl = "https://naas.isalman.dev/no";
+        let allReasons = [];
+        let index = 0;
+        let currentMessage = "";
+        let isTyping = false;
+        let typingTimeout;
 
+        // 1. Fetch the local JSON file
+        async function loadReasons() {
             try {
-                const response = await fetch(proxy + encodeURIComponent(apiUrl));
-                if (!response.ok) throw new Error('API Rejection');
-                
-                const data = await response.json();
-                const message = data.reason || data.result || "No reason found.";
-
-                // Set the text, then wait a tiny moment to trigger the fade
-                subjectElement.textContent = message;
-                
-                // Small timeout ensures the browser registers the text change before fading
-                setTimeout(() => {
-                    subjectElement.classList.add('visible');
-                }, 100);
-
-            } catch (error) {
-                console.error('Fetch error:', error);
-                subjectElement.textContent = "The server said 'No' to giving a reason.";
-                subjectElement.classList.add('visible');
+                const response = await fetch('/404_response.json');
+                if (!response.ok) throw new Error('File not found');
+                allReasons = await response.json();
+                pickAndType();
+            } catch (err) {
+                console.error("Error loading JSON:", err);
+                allReasons = ["No reasons found in JSON file."];
+                pickAndType();
             }
         }
 
-        fetchNo();
+        // 2. Select a message and start the animation
+        function pickAndType() {
+            if (isTyping) return;
+            
+            clearTimeout(typingTimeout);
+            const subjectElement = document.getElementById('subject-line');
+            subjectElement.textContent = "";
+            index = 0;
+            
+            currentMessage = allReasons[Math.floor(Math.random() * allReasons.length)];
+            typeWriter();
+        }
+
+        // 3. Typewriter logic
+        function typeWriter() {
+            if (index < currentMessage.length) {
+                isTyping = true;
+                document.getElementById('subject-line').textContent += currentMessage.charAt(index);
+                index++;
+                typingTimeout = setTimeout(typeWriter, Math.random() * 50 + 30);
+            } else {
+                isTyping = false;
+            }
+        }
+
+        window.onload = loadReasons;
     </script>
 </body>
 </html>
