@@ -1,0 +1,2 @@
+# points pages to custom 404 page instead
+ErrorDocument 404 /404.html
