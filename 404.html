@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Background Image */
+            background: url('https://images.unsplash.com/photo-1518655061710-5ccf392c275a?auto=format&fit=crop&q=80&w=2000') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            width: 85%;
+            max-width: 700px;
+            padding: 50px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            text-align: left;
+        }
+
+        h1 {
+            font-size: 80px;
+            margin: 0;
+            color: #1a1a1a;
+            line-height: 1;
+        }
+
+        /* The Subject Line - Hidden by default */
+        #subject-line {
+            font-size: 24px;
+            color: #444;
+            margin-top: 25px;
+            display: block;
+            opacity: 0; /* Start invisible */
+            transition: opacity 1s ease-in-out; /* Smooth fade effect */
+        }
+
+        /* Class to trigger the fade */
+        #subject-line.visible {
+            opacity: 1;
+        }
+
+        .home-button {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 15px 30px;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .home-button:hover {
+            background-color: #000;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>404</h1>
+        <span id="subject-line"></span>
+        
+        <br>
+        
+        <a href="/" class="home-button">Back to Reality</a>
+    </div>
+
+    <script>
+        async function fetchNo() {
+            const subjectElement = document.getElementById('subject-line');
+            const proxy = "https://corsproxy.io/?";
+            const apiUrl = "https://naas.isalman.dev/no";
+
+            try {
+                const response = await fetch(proxy + encodeURIComponent(apiUrl));
+                if (!response.ok) throw new Error('API Rejection');
+                
+                const data = await response.json();
+                const message = data.reason || data.result || "No reason found.";
+
+                // Set the text, then wait a tiny moment to trigger the fade
+                subjectElement.textContent = message;
+                
+                // Small timeout ensures the browser registers the text change before fading
+                setTimeout(() => {
+                    subjectElement.classList.add('visible');
+                }, 100);
+
+            } catch (error) {
+                console.error('Fetch error:', error);
+                subjectElement.textContent = "The server said 'No' to giving a reason.";
+                subjectElement.classList.add('visible');
+            }
+        }
+
+        fetchNo();
+    </script>
+</body>
+</html>
