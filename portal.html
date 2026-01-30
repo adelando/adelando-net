@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adelando Portal</title>
+    <style>
+        /* General Reset - Critical for removing white gaps */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden; /* Prevents scrollbars */
+            background-color: #000;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* Container - Forces children to fill all available width */
+        .split-container {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        /* Base Side Styling */
+        .side {
+            display: flex;
+            position: relative;
+            /* flex: grow | shrink | basis */
+            /* 1 1 0 ensures they start exactly at 50% and fill the screen */
+            flex: 1 1 0;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            color: white;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        /* Backgrounds with Overlays */
+        .left {
+            background-image: 
+                linear-gradient(rgba(13, 71, 161, 0.75), rgba(13, 71, 161, 0.75)), 
+                url('https://images.unsplash.com/photo-1519681393784-d120267933ba');
+        }
+
+        .right {
+            background-image: 
+                linear-gradient(rgba(106, 27, 154, 0.8), rgba(25, 118, 210, 0.8)), 
+                url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b');
+        }
+
+        /* Content Container */
+        .content {
+            z-index: 5;
+            padding: 20px;
+            width: 90%;
+            transition: opacity 0.4s ease, transform 0.5s ease;
+        }
+
+        /* Icons and Header - Visible on Load */
+        .icon {
+            font-size: 5rem;
+            margin-bottom: 10px;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: 800;
+        }
+
+        /* Hidden Content - Reveals on hover */
+        .reveal-content {
+            opacity: 0;
+            max-height: 0;
+            transition: opacity 0.5s ease, max-height 0.5s ease, margin-top 0.5s ease;
+            overflow: hidden;
+        }
+
+        .reveal-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        /* Return Arrows */
+        .back-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            font-size: 3.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            transition: opacity 0.3s;
+            z-index: 10;
+            pointer-events: none;
+        }
+        .left .back-arrow { right: 30px; }
+        .right .back-arrow { left: 30px; }
+
+        /* Button Styling */
+        .btn {
+            display: inline-block;
+            padding: 18px 40px;
+            border: 2px solid white;
+            background: transparent;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background: white;
+            color: #111;
+        }
+
+        /* --- INTERACTION LOGIC --- */
+
+        /* 1. Expand the hovered side to fill most of the screen */
+        .side:hover {
+            flex: 6 1 0; /* Larger grow factor */
+        }
+
+        .side:hover .reveal-content {
+            opacity: 1;
+            max-height: 500px;
+            margin-top: 25px;
+        }
+
+        /* 2. Shrink the side NOT being hovered */
+        .side:not(:hover) {
+            flex: 1 1 0; /* Stays proportional but much smaller */
+        }
+
+        /* 3. Hide text on the non-active side when the other is hovered */
+        .split-container:has(.right:hover) .left .content,
+        .split-container:has(.left:hover) .right .content {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* 4. Show arrow on the non-active side */
+        .split-container:has(.right:hover) .left .back-arrow,
+        .split-container:has(.left:hover) .right .back-arrow {
+            opacity: 1;
+        }
+
+        /* Float Animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Mobile View - Vertical Split */
+        @media (max-width: 768px) {
+            .split-container { flex-direction: column; }
+            h1 { font-size: 2rem; }
+            .icon { font-size: 3.5rem; }
+            .side:hover { flex: 8 1 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="split-container">
+        <div class="side left">
+            <div class="back-arrow">←</div>
+            <div class="content">
+                <div class="icon">❄️</div>
+                <h1>Creativity Craft</h1>
+                <div class="reveal-content">
+                    <p>CreativityCraft was a free-roam Minecraft creative server hosted back on 1.14</p>
+                    <a href="creativitycraft.html" class="btn">World Downloads</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="side right">
+            <div class="back-arrow">→</div>
+            <div class="content">
+                <div class="icon">🔮</div>
+                <h1>Aydaacraft</h1>
+                <div class="reveal-content">
+                    <p> Aydaacraft was a survival exploration server with tons of modern features in late Minecraft years.</p>
+                    <a href="aydaacraft.html" class="btn">World Downloads</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
