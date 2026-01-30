@@ -3,202 +3,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adelando Portal</title>
+    <title>Adelando.net | Welcome</title>
     <style>
-        /* General Reset - Critical for removing white gaps */
+        /* General Reset */
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
             width: 100%;
-            overflow: hidden; /* Prevents scrollbars */
-            background-color: #000;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        /* Container - Forces children to fill all available width */
-        .split-container {
-            display: flex;
-            height: 100vh;
-            width: 100%;
-            margin: 0;
-            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
+            background-color: #000;
         }
 
-        /* Base Side Styling */
+        .page-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* --- TOP WELCOME SECTION (30%) --- */
+        .welcome-header {
+            height: 30vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 20;
+            
+            /* Mesh Gradient Background */
+            background: linear-gradient(135deg, #1a237e 0%, #4a148c 50%, #0d1117 100%);
+            
+            /* Separation Shadow */
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Subtle Texture Overlay */
+        .welcome-header::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url('https://www.transparenttextures.com/patterns/asfalt-light.png');
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        /* Animated Title */
+        .welcome-header h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            font-weight: 900;
+            position: relative;
+            
+            /* Gradient Text & Shimmer Setup */
+            background: linear-gradient(to right, #ffffff 20%, #c34aff 50%, #ffffff 80%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            
+            /* Animations: Glow pulse and Shimmer sweep */
+            animation: 
+                textGlow 5s ease-in-out infinite,
+                shimmerSweep 6s linear infinite;
+        }
+
+        .welcome-header p {
+            font-size: 1.1rem;
+            margin-top: 5px;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            position: relative;
+            animation: fadeIn 5s ease-out;
+        }
+
+        /* --- BOTTOM SPLIT SECTION (70%) --- */
+        .split-container {
+            height: 70vh;
+            display: flex;
+            width: 100%;
+            background-color: #000;
+        }
+
         .side {
             display: flex;
             position: relative;
-            /* flex: grow | shrink | basis */
-            /* 1 1 0 ensures they start exactly at 50% and fill the screen */
-            flex: 1 1 0;
+            flex: 1;
             align-items: center;
             justify-content: center;
             transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-            background-size: cover;
-            background-position: center;
-            text-align: center;
-            color: white;
             cursor: pointer;
             overflow: hidden;
+            text-decoration: none;
+            color: white;
+            text-align: center;
         }
 
-        /* Backgrounds with Overlays */
-        .left {
+        /* GitHub Side Styling */
+        .github-side {
             background-image: 
-                linear-gradient(rgba(13, 71, 161, 0.75), rgba(13, 71, 161, 0.75)), 
-                url('https://images.unsplash.com/photo-1519681393784-d120267933ba');
+                linear-gradient(rgba(13, 17, 23, 0.85), rgba(13, 17, 23, 0.85)), 
+                url('https://images.unsplash.com/photo-1542831371-29b0f74f9713');
+            background-size: cover;
+            background-position: center;
         }
 
-        .right {
+        /* Downloads Side Styling */
+        .downloads-side {
             background-image: 
-                linear-gradient(rgba(106, 27, 154, 0.8), rgba(25, 118, 210, 0.8)), 
-                url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b');
+                linear-gradient(rgba(49, 27, 146, 0.7), rgba(13, 71, 161, 0.7)), 
+                url('https://images.unsplash.com/photo-1633524411211-b682455441f5');
+            background-size: cover;
+            background-position: center;
         }
 
-        /* Content Container */
+        /* Interaction Logic */
+        .side:hover {
+            flex: 2.5;
+        }
+
+        .side:not(:hover) {
+            flex: 0.7;
+        }
+
+        /* Hover Zoom Effect */
+        .side::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: inherit;
+            transition: transform 0.8s ease;
+            z-index: 1;
+        }
+
+        .side:hover::before {
+            transform: scale(1.1);
+        }
+
+        /* Content & Reveal Logic */
         .content {
-            z-index: 5;
-            padding: 20px;
-            width: 90%;
-            transition: opacity 0.4s ease, transform 0.5s ease;
+            position: relative;
+            z-index: 2;
+            padding: 30px;
+            transition: all 0.4s ease;
         }
 
-        /* Icons and Header - Visible on Load */
         .icon {
             font-size: 5rem;
             margin-bottom: 10px;
             display: block;
-            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
         }
 
-        h1 {
-            font-size: 3rem;
+        h2 {
+            font-size: 2.2rem;
             margin: 0;
             text-transform: uppercase;
-            letter-spacing: 4px;
-            font-weight: 800;
+            letter-spacing: 2px;
         }
 
-        /* Hidden Content - Reveals on hover */
-        .reveal-content {
+        .subtext {
+            font-size: 1.1rem;
             opacity: 0;
             max-height: 0;
-            transition: opacity 0.5s ease, max-height 0.5s ease, margin-top 0.5s ease;
-            overflow: hidden;
-        }
-
-        .reveal-content p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
+            transition: all 0.5s ease;
+            margin-top: 15px;
+            color: rgba(255, 255, 255, 0.8);
             font-weight: 300;
         }
 
-        /* Return Arrows */
-        .back-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            opacity: 0;
-            font-size: 3.5rem;
-            color: rgba(255, 255, 255, 0.8);
-            transition: opacity 0.3s;
-            z-index: 10;
-            pointer-events: none;
-        }
-        .left .back-arrow { right: 30px; }
-        .right .back-arrow { left: 30px; }
-
-        /* Button Styling */
-        .btn {
-            display: inline-block;
-            padding: 18px 40px;
-            border: 2px solid white;
-            background: transparent;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-        }
-        .btn:hover {
-            background: white;
-            color: #111;
-        }
-
-        /* --- INTERACTION LOGIC --- */
-
-        /* 1. Expand the hovered side to fill most of the screen */
-        .side:hover {
-            flex: 6 1 0; /* Larger grow factor */
-        }
-
-        .side:hover .reveal-content {
+        .side:hover .subtext {
             opacity: 1;
-            max-height: 500px;
-            margin-top: 25px;
+            max-height: 100px;
         }
 
-        /* 2. Shrink the side NOT being hovered */
-        .side:not(:hover) {
-            flex: 1 1 0; /* Stays proportional but much smaller */
+        /* --- ANIMATIONS --- */
+        @keyframes textGlow {
+            0%, 100% {
+                filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
+                transform: scale(1);
+            }
+            50% {
+                filter: drop-shadow(0 0 20px rgba(179, 229, 252, 0.5));
+                transform: scale(1.02);
+            }
         }
 
-        /* 3. Hide text on the non-active side when the other is hovered */
-        .split-container:has(.right:hover) .left .content,
-        .split-container:has(.left:hover) .right .content {
-            opacity: 0;
-            pointer-events: none;
+        @keyframes shimmerSweep {
+            to { background-position: 200% center; }
         }
 
-        /* 4. Show arrow on the non-active side */
-        .split-container:has(.right:hover) .left .back-arrow,
-        .split-container:has(.left:hover) .right .back-arrow {
-            opacity: 1;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Float Animation */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
-
-        /* Mobile View - Vertical Split */
+        /* Mobile View */
         @media (max-width: 768px) {
-            .split-container { flex-direction: column; }
-            h1 { font-size: 2rem; }
-            .icon { font-size: 3.5rem; }
-            .side:hover { flex: 8 1 0; }
+            .welcome-header { height: 25vh; }
+            .welcome-header h1 { font-size: 2.2rem; letter-spacing: 4px; }
+            .split-container { height: 75vh; flex-direction: column; }
+            .side:hover { flex: 4; }
         }
     </style>
 </head>
 <body>
 
-    <div class="split-container">
-        <div class="side left">
-            <div class="back-arrow">←</div>
-            <div class="content">
-                <div class="icon">❄️</div>
-                <h1>Creativity Craft</h1>
-                <div class="reveal-content">
-                    <p>CreativityCraft was a free-roam Minecraft creative server hosted back on 1.14</p>
-                    <a href="creativitycraft.html" class="btn">World Downloads</a>
-                </div>
-            </div>
-        </div>
+    <div class="page-wrapper">
+        <header class="welcome-header">
+            <h1>Adelando.net</h1>
+            <p>Welcome to my portal, I got github and minecraft downloads to choose from :)</p>
+        </header>
 
-        <div class="side right">
-            <div class="back-arrow">→</div>
-            <div class="content">
-                <div class="icon">🔮</div>
-                <h1>Aydaacraft</h1>
-                <div class="reveal-content">
-                    <p> Aydaacraft was a survival exploration server with tons of modern features in late Minecraft years.</p>
-                    <a href="aydaacraft.html" class="btn">World Downloads</a>
+        <div class="split-container">
+            
+            <a href="github.html" class="side github-side">
+                <div class="content">
+                    <span class="icon">ðŸ’»</span>
+                    <h2>GitHub Projects</h2>
+                    <div class="subtext">Explore my open-source repositories and live code updates.</div>
                 </div>
-            </div>
+            </a>
+
+            <a href="portal.html" class="side downloads-side">
+                <div class="content">
+                    <span class="icon">ðŸ“¥</span>
+                    <h2>Downloads</h2>
+                    <div class="subtext">Access the CreativityCraft and Aydaacraft download pages.</div>
+                </div>
+            </a>
+
         </div>
     </div>
 
