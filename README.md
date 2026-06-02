@@ -1,5 +1,8 @@
-just my website code, nothing fancy tbh.
+# Adelando.net
 
-feel free to use any code here that you like. but dont reupload my exact website somewhere else
+Just my website, in open-source format. See the code from my site and use whatevery you want from it :) 
+Obviously don't just clone my site elsewhere and don't forget to credit anything you use, and be sure to credit other people for the appropriate things like the 404 page, 
 
-Spent way too long on my 404 page to give a random rejection message every failure, pulls from a list of over 1000+ No responses, all pulled from the github "https://github.com/hotheadhacker/no-as-a-service"
+### Credits for no-as-a-service = 404.html
+
+Different no's from a list of over 1000+ responses, all pulled from the github "https://github.com/hotheadhacker/no-as-a-service"
