@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | Adelando.net</title>
+  <meta name="description" content="Australian coder, Minecraft server hoster, and open-source experimenter.">
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <!-- Open Graph -->
+  <meta property="og:title"       content="About | Adelando.net">
+  <meta property="og:description" content="Australian coder, Minecraft server hoster, and open-source experimenter. Building things to fill voids that don't exist yet.">
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://adelando.net/about.html">
+  <meta property="og:image"       content="https://adelando.net/images/og.png">
+  <meta property="og:site_name"   content="Adelando.net">
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="About | Adelando.net">
+  <meta name="twitter:description" content="Australian coder, Minecraft server hoster, and open-source experimenter. Building things to fill voids that don't exist yet.">
+  <meta name="twitter:image"       content="https://adelando.net/images/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── About-page-only styles ── */
+
+    /* Hero */
+    .about-hero {
+      position: relative;
+      padding: 100px 28px 80px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .about-hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 55% 60% at 20% 40%, rgba(0,212,255,0.06) 0%, transparent 65%),
+        radial-gradient(ellipse 55% 60% at 80% 60%, rgba(255,0,128,0.06) 0%, transparent 65%),
+        linear-gradient(rgba(0,212,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.02) 1px, transparent 1px);
+      background-size: auto, auto, 64px 64px, 64px 64px;
+      pointer-events: none;
+    }
+    .about-hero-content { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+
+    .avatar-ring {
+      width: 96px; height: 96px;
+      border-radius: 50%;
+      border: 2px solid rgba(0,212,255,0.35);
+      background: linear-gradient(135deg, #0f0f24, #1a0630);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.8rem;
+      margin: 0 auto 28px;
+      box-shadow: 0 0 32px rgba(0,212,255,0.12);
+      overflow: hidden;
+    }
+    .avatar-ring img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .about-name {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 900;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+    .aka-pills {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+    .aka-pill {
+      padding: 4px 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .aka-pill .aka-label {
+      color: var(--accent-cyan);
+      margin-right: 4px;
+    }
+    .about-tagline {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* Bio cards */
+    .bio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 64px;
+    }
+    .bio-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .bio-card:hover {
+      border-color: var(--border-cyan);
+      transform: translateY(-3px);
+    }
+    .bio-card-icon {
+      font-size: 1.8rem;
+      margin-bottom: 14px;
+      display: block;
+    }
+    .bio-card h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text-primary);
+    }
+    .bio-card p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* Section divider */
+    .section-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 64px 0;
+    }
+
+    /* Platforms grid */
+    .platforms-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    .platform-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      text-align: center;
+      text-decoration: none;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .platform-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .platform-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 36px rgba(0,0,0,0.4);
+    }
+    .platform-card:hover::after { opacity: 1; }
+
+    .platform-icon {
+      width: 44px; height: 44px;
+      border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .platform-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .platform-username {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-family: monospace;
+    }
+
+    /* Platform-specific accent colours */
+    .platform-discord  { --p-color: #5865F2; }
+    .platform-youtube  { --p-color: #FF0000; }
+    .platform-x        { --p-color: #e7e9ea; }
+    .platform-psn      { --p-color: #003087; }
+    .platform-xbox     { --p-color: #107C10; }
+    .platform-steam    { --p-color: #1b2838; }
+    .platform-epic     { --p-color: #2563eb; }
+    .platform-github   { --p-color: #f0f6fc;  }
+
+    .platform-card:hover { border-color: rgba(var(--p-rgb, 0,212,255), 0.35); }
+    .platform-card::after { background: var(--p-color); }
+    .platform-icon { background: color-mix(in srgb, var(--p-color) 12%, transparent); }
+    .platform-icon svg { color: var(--p-color); }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .bio-grid { grid-template-columns: repeat(2, 1fr); }
+      .platforms-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .bio-grid { grid-template-columns: 1fr; }
+      .platforms-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">ADELANDO<span class="accent">.</span>NET</a>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="downloads.html">Downloads</a>
+        <a href="github.html">GitHub</a>
+        <a href="about.html" class="active">About</a>
+      </div>
+      <button class="nav-mobile-toggle" onclick="document.getElementById('nav-links').classList.toggle('open')" aria-label="Toggle menu">☰</button>
+    </div>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <!-- ── HERO ── -->
+    <section class="about-hero">
+      <div class="about-hero-bg"></div>
+      <div class="about-hero-content">
+        <div class="avatar-ring"><img src="/images/profile.png" alt="Adelando"></div>
+        <h1 class="about-name">
+          <span class="gradient-text">Adelando</span>
+        </h1>
+        <div class="aka-pills">
+          <span class="aka-pill"><span class="aka-label">aka</span>Adeland6</span>
+          <span class="aka-pill"><span class="aka-label">aka</span>LeftRightShift</span>
+        </div>
+        <p class="about-tagline">
+          Australian coder, Minecraft server hoster, and open-source experimenter. I build projects to fill voids that either don't exist or aren't easy to set up — Putting AI to good use 🤖.
+        </p>
+      </div>
+    </section>
+
+    <!-- ── BIO CARDS ── -->
+    <div class="section" style="padding-top: 0;">
+      <div class="bio-grid">
+
+        <div class="bio-card">
+          <span class="bio-card-icon">🇦🇺</span>
+          <h3>Based in Australia</h3>
+          <p>Australian mines worker by day, coder and occasional vibe coder by night. Building things from the downunder.</p>
+        </div>
+
+        <div class="bio-card">
+          <span class="bio-card-icon">🔧</span>
+          <h3>Problem Solver</h3>
+          <p>Building projects that fill a void that cant seem to find online. Hoping one day my projects will help someone else.</p>
+        </div>
+
+        <div class="bio-card">
+          <span class="bio-card-icon">🎮</span>
+          <h3>Minecraft Enthusiast</h3>
+          <p>Long-time Minecraft lover and server hoster. World archives from previous Minecraft servers Aydaacraft and CreativityCraft are available to download.</p>
+        </div>
+
+        <div class="bio-card">
+          <span class="bio-card-icon">🧪</span>
+          <h3>Open-Source Tinkerer</h3>
+          <p>Running experiments with open-source software at home — from self-hosted services to custom tooling and integrations.</p>
+        </div>
+
+        <div class="bio-card">
+          <span class="bio-card-icon">🤖</span>
+          <h3>AI for Good</h3>
+          <p>Exploring how AI can be used constructively — building tools, automating workflows, and augmenting creativity responsibly. Like this website!</p>
+        </div>
+
+        <div class="bio-card">
+          <span class="bio-card-icon">💻</span>
+          <h3>Always Building</h3>
+          <p>My mind never rests until the project in my mind is completed. Always building, Always being creative.</p>
+        </div>
+
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- ── PLATFORMS ── -->
+      <div class="section-header">
+        <div class="section-tag">Find Me Online</div>
+        <h2 class="section-title">Platforms &amp; <span class="accent-cyan">Links</span></h2>
+        <p class="section-desc">Where to find me across the internet. Dont accept requests on gaming services.</p>
+      </div>
+
+      <div class="platforms-grid">
+
+        <!-- Discord -->
+        <a href="https://discord.com" class="platform-card platform-discord" target="_blank" rel="noopener">
+          <div class="platform-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+            </svg>
+          </div>
+          <span class="platform-name">Discord</span>
+		  <p class="section-desc">No friend requests.</p>
+          <span class="platform-username">adelando</span>
+        </a>
+
+        <!-- YouTube -->
+        <a href="https://youtube.com/@adeland6" class="platform-card platform-youtube" target="_blank" rel="noopener">
+          <div class="platform-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+          </div>
+          <span class="platform-name">YouTube</span>
+		  <p class="section-desc">Post random stuff</p>
+          <span class="platform-username">@adeland6</span>
+        </a>
+
+        <!-- X / Twitter -->
+        <a href="https://x.com/theadelando" class="platform-card platform-x" target="_blank" rel="noopener">
+          <div class="platform-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </div>
+          <span class="platform-name">X / Twitter</span>
+		  <p class="section-desc">Posts are rare.</p>
+          <span class="platform-username">@TheAdelando</span>
+        </a>
+
+        <!-- PlayStation -->
+        <a href="https://profile.playstation.com/Adeland6" class="platform-card platform-psn" target="_blank" rel="noopener">
+          <div class="platform-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8.984 2.596v17.547l3.915 1.261V6.688c0-.69.304-1.151.794-.991.636.181.76.814.76 1.505v5.876c2.441 1.193 4.263-.005 4.263-3.089 0-3.181-1.104-4.57-4.337-5.631-1.121-.36-3.396-1.013-5.395-1.762M2.025 18.87c2.419.869 4.938.623 6.959-.407V16.19c-1.68.76-3.558.944-5.122.191-.919-.451-.793-1.09.201-1.657.618-.328 1.44-.542 2.27-.742V11.73c-2.346.507-4.785 1.551-5.273 3.36-.496 1.83.547 3.077 2.965 3.78m19.95-4.188c-.503-1.19-1.727-1.956-3.843-2.479v2.156c1.154.425 1.638.93 1.414 1.572-.276.823-1.596 1.073-3.564.475v2.307c2.732.484 5.589-.16 5.993-2.18.137-.689 0-1.263-.154-1.851z"/>
+            </svg>
+          </div>
+          <span class="platform-name">PlayStation</span>
+		  <p class="section-desc">No friend requests.</p>
+          <span class="platform-username">@adeland6</span>
+        </a>
+
+        <!-- Xbox -->
+        <a href="https://xbox.com/en-AU/play/user/Adeland6" class="platform-card platform-xbox" target="_blank" rel="noopener">
+          <div class="platform-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M5.112 3.285a9.22 9.22 0 0 1 13.776 0c-.88-.241-2.692-.444-4.136.851a41.818 41.818 0 0 0-5.504 0c-1.444-1.295-3.256-1.092-4.136-.851zM3.701 4.553C1.401 6.582 0 9.473 0 12.706c0 2.647.954 5.082 2.528 6.957.016-1.13.467-3.049 2.168-5.151 1.136-1.395 2.48-3.024 3.39-4.354-1.83-2.692-3.542-4.35-4.385-5.605zm16.598 0c-.844 1.255-2.555 2.913-4.385 5.605.91 1.33 2.254 2.959 3.39 4.354 1.701 2.102 2.152 4.021 2.168 5.151A11.928 11.928 0 0 0 24 12.706c0-3.233-1.401-6.124-3.701-8.153zM12 8.43a39.024 39.024 0 0 0-3.572 4.48c1.088 1.491 2.32 2.955 3.572 4.183 1.252-1.228 2.484-2.692 3.572-4.183A39.024 39.024 0 0 0 12 8.43zm-5.928 9.9c-.25.363-.457.719-.618 1.063A11.96 11.96 0 0 0 12 21.25a11.96 11.96 0 0 0 6.546-1.857 9.527 9.527 0 0 0-.618-1.063c-1.005.637-3.049 1.586-5.928 1.586-2.879 0-4.923-.949-5.928-1.586z"/>
+            </svg>
+          </div>
+          <span class="platform-name">Xbox</span>
+		  <p class="section-desc">No friend requests.</p>
+          <span class="platform-username">@adeland6</span>
+        </a>
+
+        <!-- Steam -->
+        <a href="https://example.com" class="platform-card platform-steam" target="_blank" rel="noopener">
+          <div class="platform-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.5 1.009 2.455-.397.957-1.497 1.41-2.455 1.012H7.54zm11.415-9.303c0-1.662-1.353-3.015-3.015-3.015-1.665 0-3.015 1.353-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.253 0-2.265-1.014-2.265-2.265z"/>
+            </svg>
+          </div>
+          <span class="platform-name">Steam</span>
+		  <p class="section-desc">No friend requests.</p>
+          <span class="platform-username">@adelando</span>
+        </a>
+
+        <!-- Epic Games -->
+        <a href="https://example.com" class="platform-card platform-epic" target="_blank" rel="noopener">
+          <div class="platform-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3.612 0v18.648l2.916.972V3.24h9.504v5.4h-5.4v2.916h5.4v5.4H6.528v2.916H18.36V0zm2.916 21.564l2.916.972V24l-2.916-.972z"/>
+            </svg>
+          </div>
+          <span class="platform-name">Epic Games</span>
+		  <p class="section-desc">No friend requests.</p>
+          <span class="platform-username">@adelando</span>
+        </a>
+
+        <!-- GitHub -->
+        <a href="https://github.com/adelando" class="platform-card platform-github" target="_blank" rel="noopener">
+          <div class="platform-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+          </div>
+          <span class="platform-name">GitHub</span>
+		  <p class="section-desc">Same as GitHub page.</p>
+          <span class="platform-username">@adelando</span>
+        </a>
+
+      </div>
+    </div>
+
+  </div><!-- /.page-wrapper -->
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="downloads.html">Downloads</a>
+        <a href="github.html">GitHub</a>
+        <a href="about.html">About</a>
+      </div>
+      <p class="footer-copy">© 2026 Adelando.net</p>
+    </div>
+  </footer>
+
+</body>
+</html>

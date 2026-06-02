@@ -1,245 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adelando.net | Welcome</title>
-    <style>
-        /* General Reset */
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width: 100%;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
-            background-color: #000;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adelando.net | Home</title>
+  <meta name="description" content="A personal hub for open-source projects, Minecraft world downloads, and GitHub repos.">
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <!-- Open Graph -->
+  <meta property="og:title"       content="Adelando.net">
+  <meta property="og:description" content="A personal hub for open-source projects, Minecraft world downloads, and GitHub repos.">
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://adelando.net/">
+  <meta property="og:image"       content="https://adelando.net/images/og.png">
+  <meta property="og:site_name"   content="Adelando.net">
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Adelando.net">
+  <meta name="twitter:description" content="A personal hub for open-source projects, Minecraft world downloads, and GitHub repos.">
+  <meta name="twitter:image"       content="https://adelando.net/images/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Home-page only styles */
+    .hero-glow-line {
+      display: block;
+      width: 120px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+      margin: 0 auto 44px;
+    }
 
-        .page-wrapper {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        /* --- TOP WELCOME SECTION (30%) --- */
-        .welcome-header {
-            height: 30vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            z-index: 20;
-            
-            /* Mesh Gradient Background */
-            background: linear-gradient(135deg, #1a237e 0%, #4a148c 50%, #0d1117 100%);
-            
-            /* Separation Shadow */
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.9);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Subtle Texture Overlay */
-        .welcome-header::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: url('https://www.transparenttextures.com/patterns/asfalt-light.png');
-            opacity: 0.15;
-            pointer-events: none;
-        }
-
-        /* Animated Title */
-        .welcome-header h1 {
-            font-size: 3.5rem;
-            margin: 0;
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            font-weight: 900;
-            position: relative;
-            
-            /* Gradient Text & Shimmer Setup */
-            background: linear-gradient(to right, #ffffff 20%, #c34aff 50%, #ffffff 80%);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            
-            /* Animations: Glow pulse and Shimmer sweep */
-            animation: 
-                textGlow 5s ease-in-out infinite,
-                shimmerSweep 6s linear infinite;
-        }
-
-        .welcome-header p {
-            font-size: 1.1rem;
-            margin-top: 5px;
-            color: rgba(255, 255, 255, 0.6);
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            position: relative;
-            animation: fadeIn 5s ease-out;
-        }
-
-        /* --- BOTTOM SPLIT SECTION (70%) --- */
-        .split-container {
-            height: 70vh;
-            display: flex;
-            width: 100%;
-            background-color: #000;
-        }
-
-        .side {
-            display: flex;
-            position: relative;
-            flex: 1;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            overflow: hidden;
-            text-decoration: none;
-            color: white;
-            text-align: center;
-        }
-
-        /* GitHub Side Styling */
-        .github-side {
-            background-image: 
-                linear-gradient(rgba(13, 17, 23, 0.85), rgba(13, 17, 23, 0.85)), 
-                url('https://images.unsplash.com/photo-1542831371-29b0f74f9713');
-            background-size: cover;
-            background-position: center;
-        }
-
-        /* Downloads Side Styling */
-        .downloads-side {
-            background-image: 
-                linear-gradient(rgba(49, 27, 146, 0.7), rgba(13, 71, 161, 0.7)), 
-                url('https://images.unsplash.com/photo-1633524411211-b682455441f5');
-            background-size: cover;
-            background-position: center;
-        }
-
-        /* Interaction Logic */
-        .side:hover {
-            flex: 2.5;
-        }
-
-        .side:not(:hover) {
-            flex: 0.7;
-        }
-
-        /* Hover Zoom Effect */
-        .side::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: inherit;
-            transition: transform 0.8s ease;
-            z-index: 1;
-        }
-
-        .side:hover::before {
-            transform: scale(1.1);
-        }
-
-        /* Content & Reveal Logic */
-        .content {
-            position: relative;
-            z-index: 2;
-            padding: 30px;
-            transition: all 0.4s ease;
-        }
-
-        .icon {
-            font-size: 5rem;
-            margin-bottom: 10px;
-            display: block;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
-        }
-
-        h2 {
-            font-size: 2.2rem;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .subtext {
-            font-size: 1.1rem;
-            opacity: 0;
-            max-height: 0;
-            transition: all 0.5s ease;
-            margin-top: 15px;
-            color: rgba(255, 255, 255, 0.8);
-            font-weight: 300;
-        }
-
-        .side:hover .subtext {
-            opacity: 1;
-            max-height: 100px;
-        }
-
-        /* --- ANIMATIONS --- */
-        @keyframes textGlow {
-            0%, 100% {
-                filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
-                transform: scale(1);
-            }
-            50% {
-                filter: drop-shadow(0 0 20px rgba(179, 229, 252, 0.5));
-                transform: scale(1.02);
-            }
-        }
-
-        @keyframes shimmerSweep {
-            to { background-position: 200% center; }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Mobile View */
-        @media (max-width: 768px) {
-            .welcome-header { height: 25vh; }
-            .welcome-header h1 { font-size: 2.2rem; letter-spacing: 4px; }
-            .split-container { height: 75vh; flex-direction: column; }
-            .side:hover { flex: 4; }
-        }
-    </style>
+    /* Recent activity strip */
+    .activity-strip {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      padding: 16px 28px;
+      overflow: hidden;
+    }
+    .activity-strip-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .activity-label {
+      color: var(--accent-cyan);
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 0.68rem;
+      white-space: nowrap;
+    }
+    .activity-scroll {
+      display: flex;
+      gap: 24px;
+      overflow: hidden;
+      flex: 1;
+    }
+    .activity-item {
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .activity-item a { color: var(--text-secondary); transition: color 0.2s; }
+    .activity-item a:hover { color: var(--accent-cyan); }
+    .activity-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      opacity: 0.5;
+      flex-shrink: 0;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="page-wrapper">
-        <header class="welcome-header">
-            <h1>Adelando.net</h1>
-            <p>Welcome to my portal, I got github and minecraft downloads to choose from :)</p>
-        </header>
-
-        <div class="split-container">
-            
-            <a href="github.html" class="side github-side">
-                <div class="content">
-                    <span class="icon">ðŸ’»</span>
-                    <h2>GitHub Projects</h2>
-                    <div class="subtext">Explore my open-source repositories and live code updates.</div>
-                </div>
-            </a>
-
-            <a href="portal.html" class="side downloads-side">
-                <div class="content">
-                    <span class="icon">ðŸ“¥</span>
-                    <h2>Downloads</h2>
-                    <div class="subtext">Access the CreativityCraft and Aydaacraft download pages.</div>
-                </div>
-            </a>
-
-        </div>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">ADELANDO<span class="accent">.</span>NET</a>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="downloads.html">Downloads</a>
+        <a href="github.html">GitHub</a>
+        <a href="about.html">About</a>
+      </div>
+      <button class="nav-mobile-toggle" onclick="document.getElementById('nav-links').classList.toggle('open')" aria-label="Toggle menu">☰</button>
     </div>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <div class="hero-tag">Developer &nbsp;·&nbsp; Creator &nbsp;·&nbsp; Builder</div>
+        <h1>
+          Welcome to<br>
+          <span class="gradient-text">Adelando.net</span>
+        </h1>
+        <span class="hero-glow-line"></span>
+        <p>A personal hub for open-source projects, Minecraft server world archives, and everything I've built along the way.</p>
+        <div class="hero-ctas">
+          <a href="projects.html" class="btn-primary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13,2 3,14 12,14 11,22 21,10 12,10"/></svg>
+            View Projects
+          </a>
+          <a href="github.html" class="btn-secondary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            Browse GitHub
+          </a>
+          <a href="downloads.html" class="btn-secondary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Downloads
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIVE REPO ACTIVITY STRIP -->
+    <div class="activity-strip">
+      <div class="activity-strip-inner">
+        <span class="activity-label">Latest Repos</span>
+        <div class="activity-scroll" id="activity-repos">
+          <div class="skel skel-activity-pill" style="width:88px"></div>
+          <div class="skel skel-activity-pill" style="width:112px"></div>
+          <div class="skel skel-activity-pill" style="width:74px"></div>
+          <div class="skel skel-activity-pill" style="width:130px"></div>
+          <div class="skel skel-activity-pill" style="width:96px"></div>
+          <div class="skel skel-activity-pill" style="width:105px"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS BAR -->
+    <div class="stats-bar">
+      <div class="stats-bar-inner">
+        <div class="stat-item">
+          <div class="stat-number" id="stat-repos">—</div>
+          <div class="stat-label">Public Repositories</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">2</div>
+          <div class="stat-label">Minecraft Servers</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">∞</div>
+          <div class="stat-label">Things In Progress</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURE CARDS -->
+    <div class="feature-grid">
+
+      <a href="projects.html" class="feature-card">
+        <div class="feature-icon cyan">🚀</div>
+        <h3>Projects</h3>
+        <p>Explore my personal and open-source projects — web apps, tools, games, and more. Updated manually as I build new things.</p>
+        <span class="feature-link">View all projects →</span>
+      </a>
+
+      <a href="downloads.html" class="feature-card">
+        <div class="feature-icon magenta">⬇</div>
+        <h3>Downloads</h3>
+        <p>Download Minecraft world archives from Aydaacraft and CreativityCraft servers across all major versions.</p>
+        <span class="feature-link" style="color:var(--accent-magenta)">Explore downloads →</span>
+      </a>
+
+      <a href="github.html" class="feature-card">
+        <div class="feature-icon purple">💻</div>
+        <h3>GitHub</h3>
+        <p>All my public repositories, fetched live from the GitHub API — always up to date with the latest code.</p>
+        <span class="feature-link" style="color:var(--accent-purple)">Browse repos →</span>
+      </a>
+
+    </div>
+
+  </div><!-- /.page-wrapper -->
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="downloads.html">Downloads</a>
+        <a href="github.html">GitHub</a>
+        <a href="about.html">About</a>
+      </div>
+      <a href="https://www.buymeacoffee.com/adelando" class="btn-coffee" target="_blank" rel="noopener">
+        ☕ Support my work
+      </a>
+      <p class="footer-copy">© 2025 Adelando.net &nbsp;·&nbsp; Built with HTML, CSS &amp; JavaScript</p>
+    </div>
+  </footer>
+
+  <script>
+    // Fetch GitHub user data for stats + activity strip
+    (async () => {
+      try {
+        const [userRes, reposRes] = await Promise.all([
+          fetch('https://api.github.com/users/adelando'),
+          fetch('https://api.github.com/users/adelando/repos?per_page=6&sort=pushed')
+        ]);
+        const user  = await userRes.json();
+        const repos = await reposRes.json();
+
+        // Stats
+        const statEl = document.getElementById('stat-repos');
+        if (statEl && user.public_repos) statEl.textContent = user.public_repos;
+
+        // Activity strip
+        const strip = document.getElementById('activity-repos');
+        if (strip && Array.isArray(repos) && repos.length) {
+          strip.innerHTML = repos.map(r =>
+            `<span class="activity-item">
+              <span class="activity-dot"></span>
+              <a href="${r.html_url}" target="_blank" rel="noopener">${r.name}</a>
+            </span>`
+          ).join('');
+        } else if (strip) {
+          strip.innerHTML = '';
+        }
+      } catch (_) { /* silently fail */ }
+    })();
+  </script>
 
 </body>
 </html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects | Adelando.net</title>
+  <meta name="description" content="A curated list of personal and open-source projects by Adelando.">
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <!-- Open Graph -->
+  <meta property="og:title"       content="Projects | Adelando.net">
+  <meta property="og:description" content="A curated list of personal and open-source projects — web apps, visualizers, and tools.">
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://adelando.net/projects.html">
+  <meta property="og:image"       content="https://adelando.net/images/og.png">
+  <meta property="og:site_name"   content="Adelando.net">
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Projects | Adelando.net">
+  <meta name="twitter:description" content="A curated list of personal and open-source projects — web apps, visualizers, and tools.">
+  <meta name="twitter:image"       content="https://adelando.net/images/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Tag filter bar */
+    .tag-filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .tag-filter-btn {
+      padding: 6px 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 100px;
+      color: var(--text-secondary);
+      font-size: 0.78rem;
+      font-weight: 600;
+      font-family: var(--font);
+      cursor: pointer;
+      line-height: 1.5;
+      -webkit-appearance: none;
+      appearance: none;
+      transition: color 0.2s, background 0.2s, border-color 0.2s;
+      white-space: nowrap;
+    }
+    .tag-filter-btn:hover {
+      color: var(--text-primary);
+      border-color: rgba(255,255,255,0.28);
+      background: rgba(255,255,255,0.07);
+    }
+    .tag-filter-btn.active {
+      background: rgba(0,212,255,0.1);
+      border-color: rgba(0,212,255,0.35);
+      color: var(--accent-cyan);
+    }
+    .project-card.filtered-out { display: none; }
+    .filter-empty {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      border: 1px dashed rgba(255,255,255,0.08);
+      border-radius: 14px;
+    }
+    .filter-empty.visible { display: block; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">ADELANDO<span class="accent">.</span>NET</a>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html">Home</a>
+        <a href="projects.html" class="active">Projects</a>
+        <a href="downloads.html">Downloads</a>
+        <a href="github.html">GitHub</a>
+        <a href="about.html">About</a>
+      </div>
+      <button class="nav-mobile-toggle" onclick="document.getElementById('nav-links').classList.toggle('open')" aria-label="Toggle menu">☰</button>
+    </div>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="section">
+
+      <div class="section-header">
+        <div class="section-tag">Portfolio</div>
+        <h1 class="section-title">My <span class="accent-cyan">Projects</span></h1>
+        <p class="section-desc">A curated list of things I've built — updated manually as new projects are added. Each card links to the live demo and GitHub repo where available.</p>
+      </div>
+
+      <!-- TAG FILTER BAR -->
+      <div class="tag-filter-bar" id="tag-filter-bar">
+        <button class="tag-filter-btn active" onclick="filterByTag('all', this)">All</button>
+        <button class="tag-filter-btn" onclick="filterByTag('HTML', this)">HTML</button>
+        <button class="tag-filter-btn" onclick="filterByTag('CSS', this)">CSS</button>
+        <button class="tag-filter-btn" onclick="filterByTag('JavaScript', this)">JavaScript</button>
+        <button class="tag-filter-btn" onclick="filterByTag('Canvas', this)">Canvas</button>
+        <button class="tag-filter-btn" onclick="filterByTag('Audio Visualiser', this)">Audio Visualiser</button>
+        <button class="tag-filter-btn" onclick="filterByTag('Socket.IO', this)">Socket.IO</button>
+        <button class="tag-filter-btn" onclick="filterByTag('AI Chat', this)">AI Chat</button>
+      </div>
+
+      <div class="filter-empty" id="filter-empty">No projects match that filter.</div>
+
+      <div class="project-list" id="project-list">
+
+        <!-- ═══════════════════════════════════════════════════════
+             EXPERIMENT LAYERS — v18.0 Multi-Layer Visualizer
+             ═══════════════════════════════════════════════════════ -->
+        <div class="project-card" data-tags="HTML CSS JavaScript Audio Visualiser">
+          <div class="project-img-icon" style="background: linear-gradient(135deg, #0a0518, #1a063a);">
+            🎛️
+          </div>
+          <div class="project-info">
+            <h3>Experiment Layers — v18.0 Multi-Layer</h3>
+            <p>
+              An experimental audio visualizer that stacks two fully independent rendering layers — a base and a top layer — each with its own shape mode, sensitivity, and colour settings. Lets you blend complex patterns live from microphone or system audio input.
+            </p>
+            <div class="project-tags">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">Audio Visualiser</span>
+            </div>
+          </div>
+          <div class="project-actions">
+            <a href="https://github.com/adelando/webpage-audio-visualizer" class="btn-github" target="_blank" rel="noopener">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub
+            </a>
+            <a href="https://adelando.net/projects/experiment_layers.html" class="btn-demo" target="_blank" rel="noopener">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Live Demo
+            </a>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════
+             VISUALIZER v17.6.2
+             ═══════════════════════════════════════════════════════ -->
+        <div class="project-card" data-tags="HTML CSS JavaScript Audio Visualiser">
+          <div class="project-img-icon" style="background: linear-gradient(135deg, #020d12, #04282e);">
+            🌀
+          </div>
+          <div class="project-info">
+            <h3>Visualizer v17.6.2</h3>
+            <p>
+              The latest stable audio visualizer, adding a Neural Web mode and freeform Custom Text rendering on top of v17.5. Includes a full 9-slot preset history system, keyboard shortcuts, and a collapsible control panel — suitable for live VJ use.
+            </p>
+            <div class="project-tags">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">Audio Visualiser</span>
+            </div>
+          </div>
+          <div class="project-actions">
+            <a href="https://github.com/adelando/webpage-audio-visualizer" class="btn-github" target="_blank" rel="noopener">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub
+            </a>
+            <a href="https://adelando.net/projects/visualizer.html" class="btn-demo" target="_blank" rel="noopener">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Live Demo
+            </a>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════
+             VISUALIZER v17.5 (Stable)
+             ═══════════════════════════════════════════════════════ -->
+        <div class="project-card" data-tags="HTML CSS JavaScript Audio Visualiser">
+          <div class="project-img-icon" style="background: linear-gradient(135deg, #040d04, #0a2a0a);">
+            🔊
+          </div>
+          <div class="project-info">
+            <h3>Visualizer v17.5</h3>
+            <p>
+              An interactive VJ tool that captures real-time system audio or microphone input and drives geometric synthesis across 9 shape modes — Starfield, Kaleidoscope, Orbiting Moons, Geometric Triangles, Pulsing Hexagons, Concentric Circles, Nested Squares, Mirror Bar, and Waveform. Full parameter control over gain, spacing, complexity, and rotation.
+            </p>
+            <div class="project-tags">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">Audio Visualiser</span>
+            </div>
+          </div>
+          <div class="project-actions">
+            <a href="https://github.com/adelando/webpage-audio-visualizer" class="btn-github" target="_blank" rel="noopener">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub
+            </a>
+            <a href="https://adelando.net/projects/17-5_stable.html" class="btn-demo" target="_blank" rel="noopener">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Live Demo
+            </a>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════
+             AI CHAT VISUALIZER — Vortex
+             ═══════════════════════════════════════════════════════ -->
+        <div class="project-card" data-tags="HTML CSS JavaScript AI Chat Socket.IO">
+          <div class="project-img-icon" style="background: linear-gradient(135deg, #050514, #0d0d30);">
+            🤖
+          </div>
+          <div class="project-info">
+            <h3>AI Chat Visualizer — Vortex</h3>
+            <p>
+              A real-time canvas visualiser designed to reflect the live state of an AI assistant. Connects via Socket.IO and reacts to six states — idle, listening, thinking, talking, sleeping, and offline — each with a distinct particle animation and colour. Built as a visual front-end for a local AI setup.
+            </p>
+            <div class="project-tags">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">AI Chat</span>
+              <span class="tag">Socket.IO</span>
+            </div>
+          </div>
+          <div class="project-actions">
+			<a href="https://github.com/adelando/" class="btn-github" target="_blank" rel="noopener">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              Coming Soon
+            </a>
+            <a href="https://adelando.net/projects/ai_chat_visualizer.html" class="btn-demo" target="_blank" rel="noopener">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Live Demo
+            </a>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════
+             DRAWBRIDGE — Canvas Animation Project
+             ═══════════════════════════════════════════════════════ -->
+        <div class="project-card" data-tags="HTML CSS JavaScript Canvas">
+          <div class="project-img-icon" style="background: linear-gradient(135deg, #0f0a00, #2a1800);">
+            🌉
+          </div>
+          <div class="project-info">
+            <h3>Drawbridge</h3>
+            <p>
+              A canvas-based animation project released across multiple versioned builds. Each version is available as a downloadable zip with iterative improvements and bug fixes across v1, v2, and v3.
+            </p>
+            <div class="project-tags">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">Canvas</span>
+            </div>
+          </div>
+          <div class="project-actions">
+            <a href="https://adelando.net/projects/drawbridge/" class="btn-demo" target="_blank" rel="noopener">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Downloads
+            </a>
+          </div>
+        </div>
+
+      </div><!-- /#project-list -->
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="downloads.html">Downloads</a>
+        <a href="github.html">GitHub</a>
+        <a href="about.html">About</a>
+      </div>
+      <p class="footer-copy">© 2025 Adelando.net</p>
+    </div>
+  </footer>
+
+  <!--
+  ════════════════════════════════════════════════════════════════
+  HOW TO ADD A NEW PROJECT
+  ════════════════════════════════════════════════════════════════
+  Copy the block below and paste it at the TOP of #project-list
+  (newest projects should appear first).
+
+  • Replace the emoji and gradient colours in project-img-icon
+    OR swap the whole div for: <img src="images/screenshot.png"
+    alt="..." class="project-img"> once you have a real screenshot.
+
+  • Fill in the title, description, and tags.
+
+  • btn-github — add/remove based on whether it's on GitHub.
+  • btn-demo   — link to the live URL, or change label to
+                 "Downloads" and link to the files directory.
+  ════════════════════════════════════════════════════════════════
+
+  <div class="project-card">
+    <div class="project-img-icon" style="background: linear-gradient(135deg, #0f0f24, #1a0a2e);">
+      🚀
+    </div>
+    <div class="project-info">
+      <h3>Project Title</h3>
+      <p>Short description of what it does and why it's interesting.</p>
+      <div class="project-tags">
+        <span class="tag">HTML</span>
+        <span class="tag">JavaScript</span>
+      </div>
+    </div>
+    <div class="project-actions">
+      <a href="https://github.com/adelando/REPO" class="btn-github" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="https://your-demo-url.com" class="btn-demo" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Live Demo
+      </a>
+    </div>
+  </div>
+
+  -->
+
+  <script>
+    function filterByTag(tag, btn) {
+      document.querySelectorAll('.tag-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('.project-card');
+      let visible = 0;
+      cards.forEach(card => {
+        const tags = (card.getAttribute('data-tags') || '').toLowerCase();
+        const needle = tag.toLowerCase();
+        const show = needle === 'all' || tags.indexOf(needle) !== -1;
+        card.classList.toggle('filtered-out', !show);
+        if (show) visible++;
+      });
+
+      const empty = document.getElementById('filter-empty');
+      if (empty) empty.classList.toggle('visible', visible === 0);
+    }
+  </script>
+
+</body>
+</html>

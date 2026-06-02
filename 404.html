@@ -1,171 +1,302 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - page not found</title>
-    <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            font-family: 'Courier New', Courier, monospace;
-            Background-color: #ffffff;
-           
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Page Not Found | Adelando.net</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <!-- Open Graph -->
+  <meta property="og:title"       content="404 — Page Not Found | Adelando.net">
+  <meta property="og:description" content="The page you're looking for doesn't exist.">
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://adelando.net/404.html">
+  <meta property="og:image"       content="https://adelando.net/images/og.png">
+  <meta property="og:site_name"   content="Adelando.net">
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="404 — Page Not Found | Adelando.net">
+  <meta name="twitter:description" content="The page you're looking for doesn't exist.">
+  <meta name="twitter:image"       content="https://adelando.net/images/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── 404-specific styles ── */
 
-        .container {
-            background-color: rgba(10, 10, 10, 0.94);
-            width: 85%;
-            max-width: 850px;
-            padding: 60px;
-            border-radius: 4px;
-            box-shadow: 0 0px 10px rgba(0,0,0,0.8);
-            text-align: left;
-            border-left: 6px solid #00ff41;
-        }
+    /* Full-height centering so the card sits mid-screen */
+    .notfound-wrapper {
+      min-height: calc(100vh - var(--nav-height));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px;
+      position: relative;
+      overflow: hidden;
+    }
 
-        h1 {
-            font-size: 110px;
-            margin: 0;
-            font-weight: 900;
-            letter-spacing: -4px;
-            color: #fff;
-        }
+    /* Subtle background grid + glows */
+    .notfound-bg {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 50% 60% at 20% 50%, rgba(255,0,128,0.05) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 60% at 80% 45%, rgba(0,212,255,0.05) 0%, transparent 65%),
+        linear-gradient(rgba(0,212,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.018) 1px, transparent 1px);
+      background-size: auto, auto, 64px 64px, 64px 64px;
+    }
 
-        h4 {
-            font-size: 18px;
-            margin: 0;
-            font-weight: 400;
-            letter-spacing: -2px;
-            color: #fff;
-        }
+    /* Card */
+    .notfound-card {
+      position: relative;
+      z-index: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 52px 56px;
+      max-width: 760px;
+      width: 100%;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.55);
+    }
+    /* Cyan left accent stripe */
+    .notfound-card::before {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0; left: 0;
+      width: 3px;
+      border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+      background: linear-gradient(180deg, var(--accent-cyan), var(--accent-purple));
+    }
 
+    /* 404 number */
+    .error-code {
+      font-size: clamp(5rem, 14vw, 9rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -4px;
+      background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 4px;
+      display: block;
+    }
+    .error-label {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      display: block;
+    }
 
-        .typewriter-box {
-            margin-top: 25px;
-            min-height: 100px; 
-        }
+    /* Terminal block */
+    .terminal-block {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 36px;
+      min-height: 80px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .terminal-prompt {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.9rem;
+      color: var(--accent-cyan);
+      white-space: nowrap;
+      padding-top: 1px;
+      user-select: none;
+    }
+    .terminal-output {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      line-height: 1.6;
+      flex: 1;
+    }
+    #typed-text { display: inline; }
 
-        #subject-line {
-            font-size: 24px;
-            color: #00ff41;
-            display: inline;
-            line-height: 1.5;
-        }
+    /* Blinking block cursor */
+    .terminal-cursor {
+      display: inline-block;
+      width: 9px;
+      height: 1.1em;
+      background: var(--accent-cyan);
+      margin-left: 3px;
+      vertical-align: text-bottom;
+      animation: cur-blink 1s step-end infinite;
+      box-shadow: 0 0 8px rgba(0,212,255,0.6);
+    }
+    @keyframes cur-blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
 
-        .cursor {
-            display: inline-block;
-            width: 12px;
-            height: 24px;
-            background-color: #00ff41;
-            margin-left: 8px;
-            vertical-align: middle;
-            animation: blink 1s infinite;
-        }
+    /* Action buttons */
+    .notfound-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
+    /* "Try again" uses btn-secondary but we override colour to cyan */
+    .btn-tryagain {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 26px;
+      background: transparent;
+      color: var(--accent-cyan);
+      border: 1px solid var(--border-cyan);
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 0.9rem;
+      font-family: var(--font);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-tryagain:hover {
+      background: rgba(0,212,255,0.08);
+      transform: translateY(-2px);
+      box-shadow: 0 0 18px rgba(0,212,255,0.2);
+    }
+    /* Spinning icon during typing */
+    .btn-tryagain.loading .spin-icon { animation: spin 0.6s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-        .button-group {
-            margin-top: 40px;
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 14px 28px;
-            background-color: transparent;
-            text-decoration: none;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 13px;
-        }
-
-        .btn-home { color: #fff; border: 1px solid #fff; }
-        .btn-home:hover { background-color: #fff; color: #000; }
-
-        .btn-retry { color: #00ff41; border: 1px solid #00ff41; }
-        .btn-retry:hover { 
-            background-color: #00ff41; 
-            color: #000;
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
-        }
-    </style>
+    @media (max-width: 600px) {
+      .notfound-card { padding: 36px 28px; }
+      .notfound-actions { flex-direction: column; }
+      .notfound-actions .btn-primary,
+      .btn-tryagain { width: 100%; justify-content: center; }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>404</h1>
-        <h4>page not found</h4>
-        <div class="typewriter-box">
-            <span id="subject-line"></span><span class="cursor"></span>
-        </div>
-        
-        <div class="button-group">
-            <a href="/" class="btn btn-home">Return to Homepage</a>
-            <button onclick="pickAndType()" class="btn btn-retry">Try again?</button>
-        </div>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">ADELANDO<span class="accent">.</span>NET</a>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="downloads.html">Downloads</a>
+        <a href="github.html">GitHub</a>
+        <a href="about.html">About</a>
+      </div>
+      <button class="nav-mobile-toggle" onclick="document.getElementById('nav-links').classList.toggle('open')" aria-label="Toggle menu">☰</button>
     </div>
+  </nav>
 
-    <script>
-        let allReasons = [];
-        let index = 0;
-        let currentMessage = "";
-        let isTyping = false;
-        let typingTimeout;
+  <div class="page-wrapper">
+    <div class="notfound-wrapper">
+      <div class="notfound-bg"></div>
 
-        // 1. Fetch the local JSON file
-        async function loadReasons() {
-            try {
-                const response = await fetch('/404_response.json');
-                if (!response.ok) throw new Error('File not found');
-                allReasons = await response.json();
-                pickAndType();
-            } catch (err) {
-                console.error("Error loading JSON:", err);
-                allReasons = ["No reasons found in JSON file."];
-                pickAndType();
-            }
-        }
+      <div class="notfound-card">
+        <span class="error-code">404</span>
+        <span class="error-label">Page Not Found</span>
 
-        // 2. Select a message and start the animation
-        function pickAndType() {
-            if (isTyping) return;
-            
-            clearTimeout(typingTimeout);
-            const subjectElement = document.getElementById('subject-line');
-            subjectElement.textContent = "";
-            index = 0;
-            
-            currentMessage = allReasons[Math.floor(Math.random() * allReasons.length)];
-            typeWriter();
-        }
+        <!-- Terminal typewriter block -->
+        <div class="terminal-block">
+          <span class="terminal-prompt">&gt;&nbsp;</span>
+          <div class="terminal-output">
+            <span id="typed-text"></span><span class="terminal-cursor" id="cursor"></span>
+          </div>
+        </div>
 
-        // 3. Typewriter logic
-        function typeWriter() {
-            if (index < currentMessage.length) {
-                isTyping = true;
-                document.getElementById('subject-line').textContent += currentMessage.charAt(index);
-                index++;
-                typingTimeout = setTimeout(typeWriter, Math.random() * 50 + 30);
-            } else {
-                isTyping = false;
-            }
-        }
+        <div class="notfound-actions">
+          <a href="index.html" class="btn-primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+            Return Home
+          </a>
+          <button class="btn-tryagain" id="retry-btn" onclick="pickAndType()">
+            <svg class="spin-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+            Try Again
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        window.onload = loadReasons;
-    </script>
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="downloads.html">Downloads</a>
+        <a href="github.html">GitHub</a>
+        <a href="about.html">About</a>
+      </div>
+      <p class="footer-copy">© 2025 Adelando.net</p>
+    </div>
+  </footer>
+
+  <script>
+    let allResponses = [];
+    let charIndex    = 0;
+    let currentMsg   = '';
+    let isTyping     = false;
+    let typingTimer;
+
+    // Load the JSON, then kick off the first message
+    async function loadResponses() {
+      try {
+        const res = await fetch('/404_response.json');
+        if (!res.ok) throw new Error('fetch failed');
+        allResponses = await res.json();
+      } catch (_) {
+        allResponses = [
+          "The page you're looking for declined to exist.",
+          "Whatever you were after — it said no.",
+          "404: The content politely ghosted you."
+        ];
+      }
+      pickAndType();
+    }
+
+    // Pick a random message and start typing it
+    function pickAndType() {
+      if (isTyping) return;
+
+      clearTimeout(typingTimer);
+      document.getElementById('typed-text').textContent = '';
+      charIndex = 0;
+
+      currentMsg = allResponses[Math.floor(Math.random() * allResponses.length)];
+
+      const btn = document.getElementById('retry-btn');
+      btn.classList.add('loading');
+      btn.disabled = true;
+
+      typeNextChar();
+    }
+
+    function typeNextChar() {
+      if (charIndex < currentMsg.length) {
+        isTyping = true;
+        document.getElementById('typed-text').textContent += currentMsg.charAt(charIndex);
+        charIndex++;
+        // Variable speed: slightly faster on spaces, natural variation otherwise
+        const delay = currentMsg.charAt(charIndex - 1) === ' '
+          ? 25
+          : Math.random() * 45 + 20;
+        typingTimer = setTimeout(typeNextChar, delay);
+      } else {
+        isTyping = false;
+        const btn = document.getElementById('retry-btn');
+        btn.classList.remove('loading');
+        btn.disabled = false;
+      }
+    }
+
+    window.addEventListener('load', loadResponses);
+  </script>
+
 </body>
 </html>
