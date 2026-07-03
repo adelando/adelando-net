@@ -7,9 +7,14 @@ The official repository for **[adelando.net](https://adelando.net)**. This repos
 
 ---
 
-## 📖 About This Project
+## 🗺️ Site Structure & Pages
 
-This project houses the frontend architecture and content for `adelando.net`. It is designed to be clean, responsive, and easy to navigate, providing an overview of my work, technical endeavors, and personal projects.
+The website is divided into several key sections to showcase my work, background, and tools:
+
+* **Home:** The main landing page providing an overview of who I am and quick links to my latest work.
+* **Projects:** A showcase of my development projects, scripts, and automation tools—including my custom integrations and local AI builds.
+* **About:** More information about my professional background, certifications, and experience.
+* **404 Error ("No-as-a-Service"):** A custom, tongue-in-cheek 404 page functioning as a "No-as-a-Service" endpoint. If you hit a dead link, you're in the wrong place—but at least you'll get a definitive, stylish "no" for your trouble.
 
 ## 🚀 Getting Started
 
@@ -24,15 +29,15 @@ You only need a modern web browser and a local development server (optional but 
 1. **Clone the repository:**
    ```bash
    git clone [https://github.com/adelando/adelando-net.git](https://github.com/adelando/adelando-net.git)
-   ```
 
+   ```
  2. **Navigate into the project directory:**
    ```bash
    cd adelando-net
    
    ```
  3. **Run the site locally:**
-   Open the index.html file in your preferred web browser, or start a local development server. For example, if you have Python installed:
+   Open the index.html file in your preferred web browser, or start a local development server. For example, if you have Python installed, you can spin up a quick server:
    ```bash
    python3 -m http.server 8000
    
@@ -41,7 +46,6 @@ You only need a modern web browser and a local development server (optional but 
 ## 🛠️ Built With
  * **HTML5 & CSS3** - Core structure, layout, and styling.
  * **JavaScript** - For dynamic interactions and frontend logic.
-   *(Note: If you are using a specific static site generator or framework like Hugo, Jekyll, React, etc., replace this section with your exact stack).*
 ## 🤝 Contributing
 Since this is a personal website repository, direct contributions are rare, but suggestions, bug reports, and optimizations are always welcome!
  1. Fork the Project
@@ -51,6 +55,3 @@ Since this is a personal website repository, direct contributions are rare, but 
  5. Open a Pull Request
 ## 📝 License
 Distributed under the MIT License. See LICENSE for more information.
-```
-
-```
