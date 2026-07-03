@@ -24,8 +24,8 @@ You only need a modern web browser and a local development server (optional but 
 1. **Clone the repository:**
    ```bash
    git clone [https://github.com/adelando/adelando-net.git](https://github.com/adelando/adelando-net.git)
+   ```
 
-```
  2. **Navigate into the project directory:**
    ```bash
    cd adelando-net
