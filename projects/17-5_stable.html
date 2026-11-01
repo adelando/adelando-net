@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VISUALIZER V17.5 - by Adelando</title>
+    <style>
+        :root { --panel-bg: rgba(10, 10, 15, 0.98); --accent: #00fbff; --mic-accent: #00ff88; --border: rgba(255,255,255,0.1); }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000; font-family: 'Segoe UI', system-ui, sans-serif; color: white; }
+        canvas { display: block; }
+        #toggle-btn { position: absolute; top: 20px; left: 20px; background: var(--panel-bg); border: 1px solid var(--border); color: white; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 20px; z-index: 100; display: flex; align-items: center; justify-content: center; transition: all 0.4s; box-shadow: 0 4px 15px rgba(0,0,0,0.4); opacity: 0.3; }
+        #toggle-btn:hover { opacity: 1; transform: scale(1.1); }
+        #toggle-btn.active { left: 335px; opacity: 1; } 
+        #ui-layer { position: absolute; top: 20px; left: 20px; background: var(--panel-bg); backdrop-filter: blur(25px); border: 1px solid var(--border); border-radius: 12px; width: 360px; z-index: 10; transition: transform 0.4s, opacity 0.3s; box-shadow: 0 15px 35px rgba(0,0,0,0.6); }
+        #ui-layer.hidden { transform: translateX(-400px); opacity: 0; pointer-events: none; }
+        .header { padding: 18px 18px 2px 18px; font-weight: 800; font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); }
+        .tagline { padding: 0 18px 10px 18px; font-size: 0.65rem; opacity: 0.6; font-style: italic; line-height: 1.3; }
+        .controls { padding: 15px 20px 20px 20px; display: flex; flex-direction: column; gap: 16px; max-height: 75vh; overflow-y: auto; }
+        .controls::-webkit-scrollbar { width: 5px; }
+        .controls::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+        .control-group { display: flex; flex-direction: column; gap: 6px; }
+        .label-row { display: flex; justify-content: space-between; align-items: center; }
+        .val { color: var(--accent); font-family: monospace; font-size: 0.85rem; font-weight: bold; }
+        label { font-size: 0.62rem; text-transform: uppercase; opacity: 0.5; letter-spacing: 1.5px; font-weight: 700; }
+        input[type="range"] { flex-grow: 1; accent-color: var(--accent); cursor: pointer; height: 4px; }
+        select, button, textarea { background: #1a1a20; color: white; border: 1px solid #333; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 0.75rem; }
+        .primary-btn { background: var(--accent) !important; color: black !important; font-weight: 800; border: none !important; }
+        .mic-btn { background: var(--mic-accent) !important; color: black !important; font-weight: 800; border: none !important; }
+        details { background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid var(--border); margin-top: 5px; }
+        summary { padding: 10px; font-size: 0.65rem; text-transform: uppercase; cursor: pointer; font-weight: bold; color: var(--accent); }
+        .details-content { padding: 10px 15px 15px 15px; font-size: 0.7rem; line-height: 1.4; color: #ccc; }
+        .details-content b { color: var(--accent); }
+        .history-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 10px; }
+        .hist-slot { background: #1a1a20; border: 1px solid #333; padding: 8px 4px; text-align: center; border-radius: 6px; font-size: 0.6rem; cursor: pointer; transition: 0.2s; }
+        .hist-slot:hover { border-color: var(--accent); background: #252530; }
+        .hist-slot.filled { border-color: var(--accent); color: var(--accent); box-shadow: inset 0 0 5px rgba(0,251,255,0.2); }
+    </style>
+</head>
+<body>
+
+    <button id="toggle-btn" class="active">⚙️</button>
+
+    <div id="ui-layer">
+        <div class="header">VISUALIZER V17.5</div>
+        <div class="tagline">Interactive VJ Tool: Capture high-fidelity system audio or microphone input to drive geometric synthesis.</div>
+        
+        <div class="controls">
+            <div class="control-group">
+                <label>Shape Mode</label>
+                <select id="baseShape">
+                    <option value="starfield">✨ Starfield Warp</option>
+                    <option value="kaleidoscope">🍭Kaleidoscope Bars</option>
+                    <option value="moons">🛰️ Orbiting Moons</option>
+                    <option value="triangle">🔺Geometric Triangles</option>
+                    <option value="hexagon">🔹Pulsing Hexagons</option>
+                    <option value="circle">🔘Concentric Circles</option>
+                    <option value="square">▪️Nested Squares</option>
+                    <option value="horizontal">📊Mirror Bar</option>
+                    <option value="waveform">🔉Waveform</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <div class="label-row"><label>Gain / Sensitivity</label><span class="val" id="val-sensitivity">1.0</span></div>
+                <input type="range" id="sensitivity" min="0.1" max="10.0" step="0.1" value="1.0">
+            </div>
+
+            <div class="control-group">
+                <div class="label-row"><label>Shape Spacing</label><span class="val" id="val-barSpacing">10</span></div>
+                <input type="range" id="barSpacing" min="1" max="100" step="1" value="10">
+            </div>
+
+            <div class="control-group">
+                <div class="label-row"><label>Complexity</label><span class="val" id="val-slices">12</span></div>
+                <input type="range" id="slices" min="2" max="100" value="12">
+            </div>
+
+            <div class="control-group">
+                <div class="label-row"><label>Rotation</label><span class="val" id="val-rotation">0.004</span></div>
+                <input type="range" id="rotation" min="-0.05" max="0.05" step="0.001" value="0.004">
+            </div>
+
+            <div class="control-group">
+                <div class="label-row"><label>Master Zoom</label><span class="val" id="val-zoom">1.5</span></div>
+                <input type="range" id="zoom" min="0.2" max="5.0" step="0.1" value="1.5">
+            </div>
+
+            <div class="control-group">
+                <div class="label-row"><label>Decay (Trails)</label><span class="val" id="val-decay">0.50</span></div>
+                <input type="range" id="decay" min="0.01" max="1.0" step="0.01" value="0.50">
+            </div>
+
+            <div class="control-group">
+                <div class="label-row"><label>Mirror Flip (Invert)</label><input type="checkbox" id="mirrorFlip" style="width:18px;height:18px;accent-color:var(--accent);"></div>
+            </div>
+
+            <div class="control-group">
+                <label>Color Mode</label>
+                <select id="colorMode">
+                    <option value="rainbow">Full Rainbow</option>
+                    <option value="custom">Custom Palette</option>
+                    <option value="cyber">Cyberpunk</option>
+                    <option value="voltage">High Voltage</option>
+                    <option value="midnight">Midnight</option>
+                    <option value="lava">Lava Flow</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <div class="label-row"><label>Color Speed</label><span class="val" id="val-rainbowSpeed">1.0</span></div>
+                <input type="range" id="rainbowSpeed" min="0" max="10" step="0.1" value="1.0">
+            </div>
+
+            <div id="custom-colors-container" class="control-group" style="display:none;">
+                <label>Custom Colors</label>
+                <div style="display:flex; gap:10px;">
+                    <input type="color" id="color1" value="#00fbff" style="width:50%;height:35px;background:none;border:none;cursor:pointer;">
+                    <input type="color" id="color2" value="#ff00ff" style="width:50%;height:35px;background:none;border:none;cursor:pointer;">
+                </div>
+            </div>
+
+            <button class="primary-btn" id="capture-btn">SYSTEM AUDIO CAPTURE</button>
+            <button class="mic-btn" id="mic-btn">MICROPHONE INPUT</button>
+
+            <details>
+                <summary>🌐 AUDIO SETUP GUIDE</summary>
+                <div class="details-content">
+                    <b>Chromium (Chrome/Edge/Opera):</b><br>
+                    1. Click System Audio Capture.<br>
+                    2. Select <u>Tab</u> or <u>Entire Screen</u>.<br>
+                    3. Ensure <b>"Also share tab audio"</b> or <b>"Share system audio"</b> toggle is **<b>ON</b>**.<br><br>
+                    <b>Mobile/Other:</b><br>
+                    Use <b>Microphone Input</b> to react to ambient sound.
+                </div>
+            </details>
+
+            <details>
+                <summary>💾 9-SLOT PRESET BANK</summary>
+                <div class="details-content">
+                    <div class="history-grid">
+                        <div class="hist-slot" id="slot-0" onclick="saveToHistory(0)">SAVE 1</div>
+                        <div class="hist-slot" id="slot-1" onclick="saveToHistory(1)">SAVE 2</div>
+                        <div class="hist-slot" id="slot-2" onclick="saveToHistory(2)">SAVE 3</div>
+                        <div class="hist-slot" id="slot-3" onclick="saveToHistory(3)">SAVE 4</div>
+                        <div class="hist-slot" id="slot-4" onclick="saveToHistory(4)">SAVE 5</div>
+                        <div class="hist-slot" id="slot-5" onclick="saveToHistory(5)">SAVE 6</div>
+                        <div class="hist-slot" id="slot-6" onclick="saveToHistory(6)">SAVE 7</div>
+                        <div class="hist-slot" id="slot-7" onclick="saveToHistory(7)">SAVE 8</div>
+                        <div class="hist-slot" id="slot-8" onclick="saveToHistory(8)">SAVE 9</div>
+                    </div>
+                    <p style="font-size:0.6rem; color:#888; text-align:center; margin-top:8px;">To load presets via keyboard: Keys [1 - 9]</p>
+                    <textarea id="preset-data" style="width:100%; height:30px; font-size:0.5rem; margin-top:10px;" placeholder="Export/Import code..."></textarea>
+                    <div style="display:flex; gap:5px; margin-top:5px;">
+                        <button id="export-btn" style="flex:1;">EXPORT Preset</button>
+                        <button id="import-btn" style="flex:1;" class="primary-btn">IMPORT Preset</button>
+                    </div>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <canvas id="visualizer"></canvas>
+
+    <script>
+        const canvas = document.getElementById('visualizer'), ctx = canvas.getContext('2d'), ui = document.getElementById('ui-layer'), btn = document.getElementById('toggle-btn');
+        let audioCtx, analyser, dataArray, timeData, isStarted = false, currentStream, globalRotation = 0, autoHue = 0;
+        
+        let settings = { 
+            baseShape: 'starfield', mirrorFlip: false, barSpacing: 10, sensitivity: 1.0,
+            rotation: 0.004, slices: 12, decay: 0.50, zoom: 1.5,
+            colorMode: 'rainbow', color1: '#00fbff', color2: '#ff00ff', rainbowSpeed: 1.0
+        };
+
+        let stars = [];
+        let history = new Array(9).fill(null);
+
+        function initStars() {
+            stars = [];
+            const count = (settings.baseShape === 'starfield' || settings.baseShape === 'moons') ? 400 : 0;
+            for(let i=0; i<count; i++) stars.push({ x: Math.random()*2-1, y: Math.random()*2-1, z: Math.random(), orbit: Math.random()*Math.PI*2 });
+        }
+
+        window.onresize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }; window.onresize();
+        btn.onclick = () => { ui.classList.toggle('hidden'); btn.classList.toggle('active'); };
+        initStars();
+
+        function saveToHistory(slot) {
+            history[slot] = JSON.stringify(settings);
+            document.getElementById(`slot-${slot}`).classList.add('filled');
+            localStorage.setItem('viz_history_9', JSON.stringify(history));
+        }
+
+        function loadFromHistory(slot) {
+            if(!history[slot]) return;
+            applySettings(JSON.parse(history[slot]));
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+            const key = parseInt(e.key);
+            if (key >= 1 && key <= 9) loadFromHistory(key - 1);
+        });
+
+        function applySettings(obj) {
+            Object.assign(settings, obj);
+            Object.keys(settings).forEach(k => {
+                const el = document.getElementById(k);
+                if(el) el.type === 'checkbox' ? el.checked = settings[k] : el.value = settings[k];
+                if(document.getElementById(`val-${k}`)) document.getElementById(`val-${k}`).innerText = settings[k];
+            });
+            document.getElementById('custom-colors-container').style.display = (settings.colorMode === 'custom') ? 'flex' : 'none';
+            initStars();
+        }
+
+        const savedHist = localStorage.getItem('viz_history_9');
+        if(savedHist) {
+            history = JSON.parse(savedHist);
+            history.forEach((h, i) => { if(h) document.getElementById(`slot-${i}`).classList.add('filled'); });
+        }
+
+        function hexToRgb(h) { const r = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(h); return r ? { r: parseInt(r[1], 16), g: parseInt(r[2], 16), b: parseInt(r[3], 16) } : {r:255,g:255,b:255}; }
+        function interpolateColor(c1, c2, f) {
+            const r1 = hexToRgb(c1), r2 = hexToRgb(c2);
+            return `rgb(${Math.round(r1.r+(r2.r-r1.r)*f)}, ${Math.round(r1.g+(r2.g-r1.g)*f)}, ${Math.round(r1.b+(r2.b-r1.b)*f)})`;
+        }
+
+        function getColor(index, total, factor) {
+            const shift = autoHue;
+            const cycleFactor = (Math.sin(shift * 0.05 + factor * 2) + 1) / 2;
+            switch(settings.colorMode) {
+                case 'rainbow': return `hsl(${(shift + index * 2) % 360}, 80%, 60%)`;
+                case 'custom': return interpolateColor(settings.color1, settings.color2, cycleFactor);
+                case 'cyber': return interpolateColor("#ff00ff", "#ffcc00", cycleFactor);
+                case 'voltage': return interpolateColor("#ffff00", "#0000ff", cycleFactor);
+                case 'midnight': return interpolateColor("#2200ff", "#660066", cycleFactor);
+                case 'lava': return interpolateColor("#ff0000", "#ffaa00", cycleFactor);
+                default: return "#fff";
+            }
+        }
+
+        document.querySelectorAll('input, select').forEach(el => {
+            el.oninput = (e) => {
+                settings[e.target.id] = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+                if(document.getElementById(`val-${e.target.id}`)) document.getElementById(`val-${e.target.id}`).innerText = e.target.value;
+                if(e.target.id === 'colorMode') document.getElementById('custom-colors-container').style.display = (e.target.value === 'custom') ? 'flex' : 'none';
+                if(e.target.id === 'slices' || e.target.id === 'baseShape') initStars();
+            };
+        });
+
+        document.getElementById('export-btn').onclick = () => { document.getElementById('preset-data').value = btoa(JSON.stringify(settings)); };
+        document.getElementById('import-btn').onclick = () => { try { applySettings(JSON.parse(atob(document.getElementById('preset-data').value))); } catch(e) { alert("Invalid Code"); } };
+
+        async function setup(s) {
+            if (currentStream) currentStream.getTracks().forEach(t => t.stop());
+            currentStream = s; audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const src = audioCtx.createMediaStreamSource(s); analyser = audioCtx.createAnalyser();
+            analyser.fftSize = 2048; src.connect(analyser); 
+            dataArray = new Uint8Array(analyser.frequencyBinCount);
+            timeData = new Uint8Array(analyser.frequencyBinCount);
+            isStarted = true;
+        }
+
+        document.getElementById('capture-btn').onclick = async () => { try { setup(await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })); } catch (e) {} };
+        document.getElementById('mic-btn').onclick = async () => { try { setup(await navigator.mediaDevices.getUserMedia({ audio: true })); } catch (e) {} };
+
+        function draw() {
+            requestAnimationFrame(draw);
+            ctx.fillStyle = `rgba(0, 0, 0, ${settings.decay})`; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            if (!dataArray) { dataArray = new Uint8Array(1024); timeData = new Uint8Array(1024); }
+            if (isStarted) { analyser.getByteFrequencyData(dataArray); analyser.getByteTimeDomainData(timeData); }
+            else { for(let i=0; i<dataArray.length; i++) { dataArray[i] = 40 + Math.sin(Date.now()*0.002 + i*0.02)*40; timeData[i] = 128 + Math.sin(i*0.05)*20; }}
+
+            const cx = canvas.width/2, cy = canvas.height/2, limit = Math.floor(dataArray.length * 0.35);
+            autoHue += parseFloat(settings.rainbowSpeed); 
+            globalRotation += parseFloat(settings.rotation);
+            const sensitivity = parseFloat(settings.sensitivity);
+            const spacing = parseFloat(settings.barSpacing);
+            const flip = settings.mirrorFlip ? -1 : 1;
+
+            ctx.save();
+            ctx.translate(cx, cy); ctx.scale(settings.zoom, settings.zoom); 
+            
+            if (settings.baseShape === 'starfield') {
+                ctx.rotate(globalRotation * flip);
+                stars.forEach((s, i) => {
+                    s.z -= (0.002 + (dataArray[i%100]/255) * 0.1 * sensitivity) * (settings.mirrorFlip ? -1 : 1); 
+                    if(s.z <= 0) s.z = 1; if(s.z > 1) s.z = 0.001;
+                    // FIX: spacing now affects the X/Y projection spread
+                    const px = (s.x / s.z) * cx * (spacing/10), py = (s.y / s.z) * cy * (spacing/10);
+                    ctx.fillStyle = getColor(i, stars.length, s.z);
+                    ctx.beginPath(); ctx.arc(px, py, Math.max(0.1, (1-s.z)*5*sensitivity), 0, Math.PI*2); ctx.fill();
+                });
+            } else if (settings.baseShape === 'waveform') {
+                ctx.rotate(globalRotation);
+                ctx.beginPath(); ctx.lineWidth = 5;
+                const waveStep = (canvas.width / timeData.length) * 2;
+                const avgVolume = dataArray.reduce((a,b)=>a+b, 0) / dataArray.length;
+                const dynamicKick = 1 + (avgVolume / 255) * 5; 
+                for (let i = 0; i < timeData.length; i++) {
+                    const x = (i - timeData.length/2) * waveStep;
+                    const val = (timeData[i] - 128) / 128; 
+                    const y = val * cy * 0.8 * sensitivity * dynamicKick * flip;
+                    if(i===0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                }
+                ctx.strokeStyle = getColor(0, 100, 0.5); ctx.stroke();
+            } else if (settings.baseShape === 'horizontal') {
+                for (let i = 0; i < limit; i += 4) {
+                    const m = (dataArray[i]/255) * 250 * sensitivity;
+                    const x = (i/limit) * cx * (spacing/8);
+                    ctx.strokeStyle = getColor(i, limit, i/limit); ctx.lineWidth = 4;
+                    ctx.beginPath();
+                    ctx.moveTo(x, (-m/2) * flip); ctx.lineTo(x, (m/2) * flip);
+                    ctx.moveTo(-x, (-m/2) * flip); ctx.lineTo(-x, (m/2) * flip);
+                    ctx.stroke();
+                }
+            } else if (settings.baseShape === 'moons') {
+                stars.forEach((s, i) => {
+                    s.orbit += parseFloat(settings.rotation) * flip;
+                    // FIX: spacing now scales the distance of the orbit
+                    const dist = (i / stars.length) * (cx * 0.8) * (spacing/10);
+                    const m = (dataArray[i % 128]/255) * 50 * sensitivity;
+                    const x = Math.cos(s.orbit) * (dist + m);
+                    const y = Math.sin(s.orbit) * (dist + m);
+                    ctx.fillStyle = getColor(i, stars.length, i/stars.length);
+                    ctx.beginPath(); ctx.arc(x, y, 2 + m/5, 0, Math.PI*2); ctx.fill();
+                });
+            } else if (settings.baseShape === 'kaleidoscope') {
+                ctx.rotate(globalRotation);
+                const slices = parseInt(settings.slices);
+                for (let i = 0; i < limit; i++) {
+                    ctx.strokeStyle = getColor(i, limit, i/limit); ctx.lineWidth = 2;
+                    ctx.save();
+                    for (let s = 0; s < slices; s++) {
+                        ctx.rotate((Math.PI * 2) / slices);
+                        ctx.beginPath(); ctx.moveTo(i * spacing, 0); 
+                        ctx.lineTo(i * spacing, (dataArray[i]/2) * sensitivity * flip); ctx.stroke();
+                    }
+                    ctx.restore();
+                }
+            } else {
+                ctx.rotate(globalRotation);
+                for (let i = 0; i < limit; i++) {
+                    const size = Math.abs(i * spacing + (dataArray[i]/2) * sensitivity * flip);
+                    ctx.strokeStyle = getColor(i, limit, i/limit); ctx.beginPath();
+                    if (settings.baseShape === 'circle') ctx.arc(0, 0, size, 0, Math.PI * 2);
+                    else if (settings.baseShape === 'square') ctx.rect(-size/2, -size/2, size, size);
+                    else if (settings.baseShape === 'hexagon') { for(let h=0; h<8; h++) { const a = (h*Math.PI/3); ctx.lineTo(size*Math.cos(a), size*Math.sin(a)); } ctx.closePath(); }
+                    else if (settings.baseShape === 'triangle') { for(let t=0; t<3; t++) { const a = (t * 2 * Math.PI / 3) - Math.PI/2; ctx.lineTo(size * Math.cos(a), size * Math.sin(a)); } ctx.closePath(); }
+                    ctx.stroke();
+                }
+            }
+            ctx.restore();
+        }
+        draw();
+    </script>
+</body>
+</html>

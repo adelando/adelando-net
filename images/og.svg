@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#070711"/>
+
+  <!-- Subtle grid -->
+  <defs>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#00d4ff" stroke-width="0.4" opacity="0.08"/>
+    </pattern>
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#00d4ff"/>
+      <stop offset="100%" stop-color="#9d00ff"/>
+    </linearGradient>
+    <radialGradient id="glowL" cx="25%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.07"/>
+      <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowR" cx="75%" cy="45%" r="45%">
+      <stop offset="0%" stop-color="#9d00ff" stop-opacity="0.07"/>
+      <stop offset="100%" stop-color="#9d00ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <rect width="1200" height="630" fill="url(#glowL)"/>
+  <rect width="1200" height="630" fill="url(#glowR)"/>
+
+  <!-- Left accent bar -->
+  <rect x="80" y="180" width="4" height="270" rx="2" fill="url(#titleGrad)"/>
+
+  <!-- Favicon mark -->
+  <rect x="104" y="180" width="72" height="72" rx="10" fill="#0f0f24" stroke="#00d4ff" stroke-width="1.5" opacity="0.6"/>
+  <text x="112" y="234" font-family="'Courier New', Courier, monospace" font-size="38" font-weight="700" fill="#00d4ff">&gt;_</text>
+
+  <!-- Site name -->
+  <text x="104" y="330" font-family="'Segoe UI', Arial, sans-serif" font-size="72" font-weight="900" letter-spacing="4" fill="url(#titleGrad)">ADELANDO.NET</text>
+
+  <!-- Tagline -->
+  <text x="104" y="385" font-family="'Segoe UI', Arial, sans-serif" font-size="26" font-weight="400" letter-spacing="2" fill="#8888bb">Developer  ·  Creator  ·  Builder</text>
+
+  <!-- Divider -->
+  <line x1="104" y1="415" x2="620" y2="415" stroke="#1e1e40" stroke-width="1"/>
+
+  <!-- Footer chips -->
+  <rect x="104" y="435" width="140" height="38" rx="19" fill="#0f0f24" stroke="#1e1e40" stroke-width="1"/>
+  <text x="174" y="459" font-family="'Segoe UI', Arial, sans-serif" font-size="16" font-weight="600" fill="#4a4a70" text-anchor="middle">Projects</text>
+
+  <rect x="256" y="435" width="160" height="38" rx="19" fill="#0f0f24" stroke="#1e1e40" stroke-width="1"/>
+  <text x="336" y="459" font-family="'Segoe UI', Arial, sans-serif" font-size="16" font-weight="600" fill="#4a4a70" text-anchor="middle">Downloads</text>
+
+  <rect x="428" y="435" width="140" height="38" rx="19" fill="#0f0f24" stroke="#1e1e40" stroke-width="1"/>
+  <text x="498" y="459" font-family="'Segoe UI', Arial, sans-serif" font-size="16" font-weight="600" fill="#4a4a70" text-anchor="middle">GitHub</text>
+
+  <rect x="580" y="435" width="120" height="38" rx="19" fill="#0f0f24" stroke="#1e1e40" stroke-width="1"/>
+  <text x="640" y="459" font-family="'Segoe UI', Arial, sans-serif" font-size="16" font-weight="600" fill="#4a4a70" text-anchor="middle">About</text>
+</svg>
