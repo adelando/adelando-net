@@ -1,0 +1,40 @@
+# Read by Cloudflare from the asset directory and applied to everything else.
+# This file itself is not served.
+
+# Pages are edited often enough that a stale copy is worse than a round trip.
+# Workers still sends an ETag, so an unchanged page costs a 304.
+# The splat matches across slashes, so this covers projects/*.html too.
+/
+  Cache-Control: no-cache
+
+/*.html
+  Cache-Control: no-cache
+
+/404_response.json
+  Cache-Control: no-cache
+
+# The stylesheet's filename carries no content hash, so keep it short: an edit
+# should show up within the hour, not be stuck in caches for weeks.
+/css/*
+  Cache-Control: public, max-age=3600
+
+# Images and downloads rarely change. A week, not immutable, for the same
+# reason: no content hash in the filenames.
+/images/*
+  Cache-Control: public, max-age=604800
+
+/favicon.svg
+  Cache-Control: public, max-age=604800
+
+/projects/drawbridge/*
+  Cache-Control: public, max-age=604800
+
+# Preview builds publish the whole site to a workers.dev address on every
+# branch and every commit. Those are throwaway copies of adelando.net and
+# should not turn up in search results competing with it.
+#
+# Scoped to the hostname, so adelando.net itself is untouched and stays
+# indexable. Each placeholder matches everything up to the next dot, which
+# covers the commit preview, the branch preview and the Worker's own address.
+https://:version.:subdomain.workers.dev/*
+  X-Robots-Tag: noindex

@@ -1,0 +1,28 @@
+{
+  // Deploy configuration for adelando.net.
+  //
+  // The site is plain HTML with no build step, so Workers Builds has nothing to
+  // compile — the deploy command alone is enough. This file is what makes that
+  // work: `wrangler deploy` refuses to run without it.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "adelando-net",
+  "compatibility_date": "2026-10-30",
+  "assets": {
+    // Only site/. Pointing this at the repository root would serve the README,
+    // this file and package.json alongside the pages.
+    "directory": "./site",
+
+    // Replaces the old .htaccess `ErrorDocument 404 /404.html`. A path that does
+    // not exist is answered with site/404.html and a real 404 status, so search
+    // engines do not index made-up URLs as copies of a page.
+    "not_found_handling": "404-page",
+
+    // Serve /about.html as /about.html. The default ("auto-trailing-slash")
+    // 307-redirects every .html URL to an extensionless one, which would put a
+    // redirect on every nav click and change URLs that are already shared.
+    "html_handling": "none"
+  }
+
+  // Caching lives in site/_headers, which Workers reads from the asset
+  // directory.
+}

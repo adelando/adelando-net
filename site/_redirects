@@ -1,0 +1,6 @@
+# Read by Cloudflare from the asset directory. This file itself is not served.
+#
+# wrangler.jsonc sets html_handling to "none" so .html URLs are served as-is
+# instead of being redirected. The side effect is that "/" no longer maps to
+# index.html on its own, so this rewrite (200 = serve, not redirect) does it.
+/ /index.html 200
