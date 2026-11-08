@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Glyph Painter | Adelando.net</title>
+<meta name="description" content="Draw bright, dim and off pixel icons for Nothing Phone (4a) Pro Glyph Matrix Essential Notifications.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Doto:wght@700;900&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#000; --panel:#111; --panel2:#1b1b1b; --line:#2a2a2a;
+    --text:#f2f2f2; --mute:#8a8a8a; --accent:#d71921; --brown:#2f1404; --brown2:#4f2a0c;
+    --bright:#ffffff; --dim:#7a7a7a; --off:#1a1a1a;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;background:var(--bg);color:var(--text);font-family:"Space Grotesk",system-ui,sans-serif}
+  body{min-height:100vh;display:flex;justify-content:center}
+  .app{width:100%;max-width:520px;padding:18px 16px 40px}
+  header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+  h1{font-family:"Doto",monospace;font-weight:900;font-size:34px;letter-spacing:1px;margin:0}
+  .count{font-family:"Doto",monospace;font-weight:700;color:var(--mute);font-size:15px}
+  .count b{color:var(--text)}
+
+  .stage{position:relative;width:100%;aspect-ratio:1;margin:4px auto 16px;border-radius:50%;
+    background:radial-gradient(circle at 50% 45%,#141414 0%,#070707 70%);
+    box-shadow:0 0 0 10px #0c0c0c,0 0 0 11px #222, inset 0 0 40px #000;
+    padding:6%;touch-action:none;user-select:none}
+  .grid{display:grid;width:100%;height:100%;gap:1.4%;grid-template-columns:repeat(13,1fr)}
+  .cell{border-radius:1px;background:var(--off);transition:background .06s,box-shadow .06s}
+  .cell.x{visibility:hidden}
+  .cell.v1{background:var(--dim);box-shadow:0 0 5px rgba(255,255,255,.1)}
+  .cell.v2{background:var(--bright);box-shadow:0 0 8px rgba(255,255,255,.45)}
+
+  .tools{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+  .brush{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:999px;
+    padding:12px 6px;font:500 15px "Space Grotesk";display:flex;align-items:center;justify-content:center;gap:8px}
+  .brush .dot{width:14px;height:14px;border-radius:1px;border:1px solid #444}
+  .brush.active{background:var(--text);color:#000;border-color:var(--text)}
+  .brush.active .dot{border-color:#000}
+
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .btn{flex:1 1 auto;border:1px solid var(--line);background:var(--panel);color:var(--text);
+    border-radius:14px;padding:11px 10px;font:500 14px "Space Grotesk";min-width:64px}
+  .btn:active{background:var(--panel2)}
+  .btn.on{border-color:var(--text)}
+  .btn.icon{flex:0 0 auto;min-width:48px}
+
+  .card{background:var(--brown);border-radius:22px;padding:16px;margin-top:14px}
+  .card h2{margin:0 0 4px;font-size:18px;font-weight:500}
+  .card p{margin:0 0 12px;color:#c9b8ab;font-size:13px;line-height:1.4}
+  .save{width:100%;border:0;border-radius:999px;background:var(--text);color:#000;padding:14px;font:600 16px "Space Grotesk"}
+  .save:active{opacity:.85}
+  .opts{display:flex;gap:8px;margin-bottom:12px}
+  .opts label{flex:1;display:flex;flex-direction:column;gap:4px;font-size:12px;color:#c9b8ab}
+  select{background:var(--brown2);color:var(--text);border:0;border-radius:10px;padding:9px;font:500 14px "Space Grotesk"}
+  .out{display:none;margin-top:14px;text-align:center}
+  .out img{width:180px;height:180px;image-rendering:pixelated;background:#000}
+  .out p{margin-top:8px}
+  .msg{font-size:13px;color:#c9b8ab;margin-top:10px;min-height:1em;text-align:center}
+
+  .lib{margin-top:14px}
+  .lib h3{font-size:13px;font-weight:500;color:var(--mute);margin:16px 2px 8px;text-transform:uppercase;letter-spacing:.08em}
+  .thumbs{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+  .thumb{position:relative;aspect-ratio:1;border-radius:50%;background:#0b0b0b;border:1px solid var(--line);padding:0;overflow:hidden}
+  .thumb canvas{width:100%;height:100%;image-rendering:pixelated;display:block}
+  .thumb .del{position:absolute;top:-2px;right:-2px;width:22px;height:22px;border-radius:50%;background:#333;color:#fff;
+    font-size:13px;line-height:22px;display:none}
+  .lib.editing .thumb .del{display:block}
+  .empty{color:var(--mute);font-size:13px;padding:2px}
+  .foot{color:var(--mute);font-size:12px;line-height:1.5;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="app">
+  <a href="/projects.html" style="color:#8a8a8a;font-size:13px;text-decoration:none;display:inline-block;margin-bottom:10px">← adelando.net</a>
+  <header>
+    <h1>GLYPH</h1>
+    <div class="count"><b id="lit">0</b>/137 lit</div>
+  </header>
+
+  <div class="stage" id="stage"><div class="grid" id="grid"></div></div>
+
+  <div class="tools">
+    <button class="brush active" data-v="2"><span class="dot" style="background:#fff"></span>Bright</button>
+    <button class="brush" data-v="1"><span class="dot" style="background:#7a7a7a"></span>Dim</button>
+    <button class="brush" data-v="0"><span class="dot" style="background:#1a1a1a"></span>Off</button>
+  </div>
+
+  <div class="row">
+    <button class="btn" id="undo">↶ Undo</button>
+    <button class="btn" id="redo">↷ Redo</button>
+    <button class="btn" id="mirror">Mirror ⇆</button>
+    <button class="btn" id="clear">Clear</button>
+  </div>
+  <div class="row">
+    <button class="btn icon" data-shift="0,-1">↑</button>
+    <button class="btn icon" data-shift="0,1">↓</button>
+    <button class="btn icon" data-shift="-1,0">←</button>
+    <button class="btn icon" data-shift="1,0">→</button>
+    <button class="btn" id="invert">Invert</button>
+    <button class="btn" id="flip">Flip</button>
+  </div>
+
+  <div class="card">
+    <h2>Save image</h2>
+    <p>Exports a PNG with black background, bright = white, dim = grey. Upload it in Glyph → Essential Notifications → Choose an icon → Custom → +.</p>
+    <div class="opts">
+      <label>Size
+        <select id="size">
+          <option value="26">338 px (recommended)</option>
+          <option value="1">13 px (1 pixel per LED)</option>
+          <option value="80">1040 px</option>
+        </select>
+      </label>
+      <label>Dim level
+        <select id="dimlvl">
+          <option value="64">25%</option>
+          <option value="128" selected>50%</option>
+          <option value="191">75%</option>
+        </select>
+      </label>
+    </div>
+    <button class="save" id="save">Save PNG</button>
+    <div class="msg" id="msg"></div>
+    <div class="out" id="out">
+      <img id="outimg" alt="Exported glyph">
+      <p class="msg">If the download didn't start, long-press the image to save it.</p>
+    </div>
+  </div>
+
+  <div class="lib" id="lib">
+    <div class="row" style="align-items:center;margin:16px 0 0">
+      <h3 style="margin:0;flex:1">My glyphs</h3>
+      <button class="btn" id="keep" style="flex:0 0 auto">+ Keep this</button>
+      <button class="btn" id="editlib" style="flex:0 0 auto">Edit</button>
+    </div>
+    <div class="thumbs" id="thumbs" style="margin-top:10px"></div>
+  </div>
+
+  <div class="foot">Phone (4a) Pro matrix: 13×13 circle, 137 LEDs. Tap a lit pixel with the same brush to turn it off. Drag to paint. Kept glyphs live in this browser only.</div>
+</div>
+
+<script>
+const N = 13, C = 6, R2 = 6.5*6.5;
+const mask = []; // true = real LED
+for (let y=0;y<N;y++) for (let x=0;x<N;x++) mask.push(((x-C)**2 + (y-C)**2) <= R2);
+
+let px = new Array(N*N).fill(0);
+let brush = 2, mirror = false;
+const undoStack = [], redoStack = [];
+
+const grid = document.getElementById('grid');
+const cells = [];
+for (let i=0;i<N*N;i++){
+  const d = document.createElement('div');
+  d.className = 'cell' + (mask[i] ? '' : ' x');
+  d.dataset.i = i;
+  grid.appendChild(d); cells.push(d);
+}
+
+function store(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+function load(k,d){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; }catch(e){ return d; } }
+
+function render(){
+  let lit = 0;
+  for (let i=0;i<N*N;i++){
+    if (!mask[i]) continue;
+    cells[i].className = 'cell' + (px[i] ? ' v'+px[i] : '');
+    if (px[i]) lit++;
+  }
+  document.getElementById('lit').textContent = lit;
+  store('glyph.current', px);
+}
+function snapshot(){ undoStack.push(px.slice()); if (undoStack.length>100) undoStack.shift(); redoStack.length = 0; }
+
+function setCell(i, v){
+  if (!mask[i]) return;
+  px[i] = v;
+  if (mirror){
+    const y = Math.floor(i/N), x = i%N, j = y*N + (N-1-x);
+    px[j] = v;
+  }
+}
+
+// painting
+let painting = false, paintVal = 2, last = -1;
+const stage = document.getElementById('stage');
+function cellAt(e){
+  const el = document.elementFromPoint(e.clientX, e.clientY);
+  if (!el || !el.classList.contains('cell') || el.classList.contains('x')) return -1;
+  return +el.dataset.i;
+}
+stage.addEventListener('pointerdown', e=>{
+  const i = cellAt(e); if (i<0) return;
+  e.preventDefault();
+  stage.setPointerCapture(e.pointerId);
+  snapshot();
+  paintVal = (px[i] === brush && brush !== 0) ? 0 : brush;
+  painting = true; last = i;
+  setCell(i, paintVal); render();
+});
+stage.addEventListener('pointermove', e=>{
+  if (!painting) return;
+  const i = cellAt(e);
+  if (i<0 || i===last) return;
+  last = i; setCell(i, paintVal); render();
+});
+['pointerup','pointercancel'].forEach(t=>stage.addEventListener(t, ()=>{ painting=false; last=-1; }));
+
+// brushes
+document.querySelectorAll('.brush').forEach(b=>b.addEventListener('click', ()=>{
+  document.querySelectorAll('.brush').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active'); brush = +b.dataset.v;
+}));
+
+// actions
+const $ = id => document.getElementById(id);
+$('undo').onclick = ()=>{ if(!undoStack.length) return; redoStack.push(px.slice()); px = undoStack.pop(); render(); };
+$('redo').onclick = ()=>{ if(!redoStack.length) return; undoStack.push(px.slice()); px = redoStack.pop(); render(); };
+$('clear').onclick = ()=>{ snapshot(); px.fill(0); render(); };
+$('mirror').onclick = ()=>{ mirror = !mirror; $('mirror').classList.toggle('on', mirror); };
+$('invert').onclick = ()=>{ snapshot(); px = px.map((v,i)=> mask[i] ? (v===2?0:v===0?2:1) : 0); render(); };
+$('flip').onclick = ()=>{ snapshot(); const n = px.slice(); for(let y=0;y<N;y++)for(let x=0;x<N;x++) n[y*N+x]=px[y*N+(N-1-x)]; px=n; render(); };
+document.querySelectorAll('[data-shift]').forEach(b=>b.onclick = ()=>{
+  const [dx,dy] = b.dataset.shift.split(',').map(Number);
+  snapshot();
+  const n = new Array(N*N).fill(0);
+  for (let y=0;y<N;y++) for (let x=0;x<N;x++){
+    const sx = x-dx, sy = y-dy;
+    if (sx>=0&&sx<N&&sy>=0&&sy<N && mask[y*N+x]) n[y*N+x] = px[sy*N+sx];
+  }
+  px = n; render();
+});
+
+// export
+function drawTo(canvas, data, scale, dim){
+  canvas.width = canvas.height = N*scale;
+  const ctx = canvas.getContext('2d');
+  ctx.imageSmoothingEnabled = false;
+  ctx.fillStyle = '#000'; ctx.fillRect(0,0,canvas.width,canvas.height);
+  for (let i=0;i<N*N;i++){
+    if (!data[i] || !mask[i]) continue;
+    const g = data[i]===2 ? 255 : dim;
+    ctx.fillStyle = `rgb(${g},${g},${g})`;
+    ctx.fillRect((i%N)*scale, Math.floor(i/N)*scale, scale, scale);
+  }
+}
+
+$('save').onclick = ()=>{
+  const scale = +$('size').value, dim = +$('dimlvl').value;
+  const cv = document.createElement('canvas');
+  drawTo(cv, px, scale, dim);
+  const url = cv.toDataURL('image/png');
+  $('outimg').src = url; $('out').style.display = 'block';
+  const name = 'glyph-' + new Date().toISOString().slice(0,19).replace(/[-:T]/g,'') + '.png';
+  try {
+    const a = document.createElement('a'); a.href = url; a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    $('msg').textContent = 'Saved ' + name;
+  } catch(e){ $('msg').textContent = 'Long-press the image below to save it.'; }
+};
+
+// library
+let lib = load('glyph.lib', []);
+let editing = false;
+function renderLib(){
+  const t = $('thumbs'); t.innerHTML = '';
+  if (!lib.length){ t.innerHTML = '<div class="empty" style="grid-column:1/-1">Nothing kept yet.</div>'; return; }
+  lib.forEach((g, k)=>{
+    const b = document.createElement('button'); b.className = 'thumb';
+    const cv = document.createElement('canvas'); drawTo(cv, g, 4, 128);
+    b.appendChild(cv);
+    const del = document.createElement('span'); del.className = 'del'; del.textContent = '×';
+    b.appendChild(del);
+    b.onclick = ()=>{
+      if (editing){ lib.splice(k,1); store('glyph.lib', lib); renderLib(); return; }
+      snapshot(); px = g.slice(); render(); window.scrollTo({top:0,behavior:'smooth'});
+    };
+    t.appendChild(b);
+  });
+}
+$('keep').onclick = ()=>{ lib.unshift(px.slice()); lib = lib.slice(0,40); store('glyph.lib', lib); renderLib(); };
+$('editlib').onclick = ()=>{ editing = !editing; $('lib').classList.toggle('editing', editing); $('editlib').textContent = editing ? 'Done' : 'Edit'; };
+
+// start with a little smiley if nothing saved
+const saved = load('glyph.current', null);
+if (saved && saved.length === N*N) px = saved;
+else {
+  const pts = [[4,4],[8,4],[4,5],[8,5]];
+  pts.forEach(([x,y])=>px[y*N+x]=2);
+  [[3,8],[9,8]].forEach(([x,y])=>px[y*N+x]=1);
+  [4,5,6,7,8].forEach(x=>px[9*N+x]=2);
+}
+render(); renderLib();
+</script>
+</body>
+</html>
