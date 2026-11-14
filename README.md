@@ -1,57 +1,91 @@
 # Adelando.net 🌐
 
 [![Website Live](https://img.shields.io/badge/Live-adelando.net-blue?style=flat-square)](https://adelando.net)
-[![GitHub Repo](https://img.shields.io/badge/Repository-adelando--net-black?logo=github&style=flat-square)](https://github.com/adelando/adelando-net)
 
-The official repository for **[adelando.net](https://adelando.net)**. This repository contains the source code for my personal website, serving as the central hub for my digital presence, portfolio, and active projects.
+Source for **[adelando.net](https://adelando.net)** — my projects, Minecraft world downloads, GitHub repos and an about page.
 
----
+The site is plain HTML, CSS and JavaScript. A small build script (no dependencies, just Node) turns the files in `content/` into finished pages in `dist/`, which Cloudflare Workers serves.
 
-## 🗺️ Site Structure & Pages
+## Editing the site
 
-The website is divided into several key sections to showcase my work, background, and tools:
+Everything you'd normally change lives in `content/`. Each file has instructions at the top.
 
-* **Home:** The main landing page providing an overview of who I am and quick links to my latest work.
-* **Projects:** A showcase of my development projects, scripts, and automation tools—including my custom integrations and local AI builds.
-* **About:** More information about my professional background, certifications, and experience.
-* **404 Error ("No-as-a-Service"):** A custom, tongue-in-cheek 404 page functioning as a "No-as-a-Service" endpoint. If you hit a dead link, you're in the wrong place—but at least you'll get a definitive, stylish "no" for your trouble.
+| I want to…                                   | Edit this                |
+| -------------------------------------------- | ------------------------ |
+| Add, remove or reorder a project             | `content/projects.mjs`   |
+| Add a world download or a server             | `content/downloads.mjs`  |
+| Change the menu, home page text or About page | `content/site.mjs`       |
+| Add an image, a demo page or a download file | drop it in `public/`     |
+| Change colours or styling                    | `src/site.css` (colours are at the top) |
+| Change a page's layout                       | `src/pages.mjs`          |
 
-## 🚀 Getting Started
+### Add a project
 
-To get a local development copy up and running, follow these steps.
+Open `content/projects.mjs` and paste a new block at the top of the list:
 
-### Prerequisites
+```js
+{
+  title: "My new thing",
+  description: "What it does, in a sentence or two.",
+  icon: "🚀",
+  accent: "cyan",                  // cyan, magenta or purple
+  tags: ["HTML", "JavaScript"],
+  featured: true,                  // optional: show it on the home page
+  links: [
+    { type: "demo", url: "/projects/my-new-thing.html" },
+    { type: "github", url: "https://github.com/adelando/my-new-thing" },
+  ],
+},
+```
 
-You only need a modern web browser and a local development server (optional but recommended) to preview the site properly.
+Put the demo file in `public/projects/`. The projects page, the tag filter buttons and the home page update on the next build. If something is missing or mistyped, the build tells you which project and what to fix.
 
-### Installation & Local Setup
+## Preview on your computer
 
-1. **Clone the repository:**
-   ```bash
-   git clone [https://github.com/adelando/adelando-net.git](https://github.com/adelando/adelando-net.git)
+You need [Node.js](https://nodejs.org) 18 or newer. Nothing to install after that.
 
-   ```
- 2. **Navigate into the project directory:**
-   ```bash
-   cd adelando-net
-   
-   ```
- 3. **Run the site locally:**
-   Open the index.html file in your preferred web browser, or start a local development server. For example, if you have Python installed, you can spin up a quick server:
-   ```bash
-   python3 -m http.server 8000
-   
-   ```
-   Then navigate to http://localhost:8000 in your browser.
-## 🛠️ Built With
- * **HTML5 & CSS3** - Core structure, layout, and styling.
- * **JavaScript** - For dynamic interactions and frontend logic.
-## 🤝 Contributing
-Since this is a personal website repository, direct contributions are rare, but suggestions, bug reports, and optimizations are always welcome!
- 1. Fork the Project
- 2. Create your Feature Branch (git checkout -b feature/Enhancement)
- 3. Commit your Changes (git commit -m 'Add a cool enhancement')
- 4. Push to the Branch (git push origin feature/Enhancement)
- 5. Open a Pull Request
-## 📝 License
-Distributed under the MIT License. See LICENSE for more information.
+```bash
+npm run dev
+```
+
+Open http://localhost:8000. The site rebuilds whenever you save a file; refresh the browser to see it.
+
+## Publishing (Cloudflare Workers)
+
+`wrangler.jsonc` tells Cloudflare to serve the `dist/` folder as static files.
+
+**From your computer**
+
+```bash
+npm run deploy
+```
+
+**Automatically on every push** — in the Cloudflare dashboard, connect this repository to the Worker (Workers Builds) and set:
+
+- Build command: `npm run build`
+- Deploy command: `npx wrangler deploy`
+
+## What's in the repo
+
+```
+content/     the words and data: projects, downloads, site settings
+public/      files copied to the site as-is: images, fonts, demo pages, favicon
+src/         page templates, the stylesheet and the script
+build.mjs    turns the above into dist/
+dist/        the finished site (generated, not committed)
+```
+
+## Files still to add
+
+These are linked from the site but aren't in the repository yet. Copy them from the old web host into `public/` (the build lists any that are missing):
+
+- `public/images/profile.png`, `dl_ac_server.png`, `dl_cc_server.png`
+- `public/projects/experiment_layers.html`, `visualizer.html`, `17-5_stable.html`, `ai_chat_visualizer.html`
+- `public/projects/drawbridge/` (needs an `index.html`)
+
+Until the images are added the site shows an icon in their place.
+
+## Credits
+
+- 404 replies from [no-as-a-service](https://github.com/hotheadhacker/no-as-a-service).
+- Typeface: [Bricolage Grotesque](https://github.com/ateliertriay/bricolage), SIL Open Font License.

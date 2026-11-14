@@ -1,0 +1,13 @@
+{
+  "name": "adelando-net",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs --serve",
+    "deploy": "node build.mjs && npx wrangler deploy"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

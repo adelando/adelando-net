@@ -1,0 +1,13 @@
+{
+  // Cloudflare Workers config: serves the built ./dist folder as a static site.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "adelando-net",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist",
+    // /projects serves projects.html; old /projects.html links redirect to it.
+    "html_handling": "auto-trailing-slash",
+    // Unknown URLs get dist/404.html with a real 404 status.
+    "not_found_handling": "404-page"
+  }
+}
