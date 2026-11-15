@@ -31,6 +31,16 @@
 
 export default [
   {
+    title: "Palette Forge — Colour Scheme Planner",
+    description:
+      "A helpful web app for designing colour palette schemes for projects, with colour visibility guidelines. Checks every colour against WCAG contrast levels, with presets, visuals and one-click CSS variables.",
+    icon: "🎨",
+    accent: "cyan",
+    tags: ["HTML", "CSS", "JavaScript"],
+    featured: true,
+    links: [{ type: "demo", url: "/projects/palette.html" }],
+  },
+  {
     title: "Glyph Painter",
     description:
       "A quick pixel editor for Nothing Phone (4a) Pro Glyph Matrix icons. Paint the 137-LED circular grid with bright, dim and off pixels, then export a PNG to upload as a custom Essential Notifications icon. Includes mirror drawing, undo, shifting and a saved-glyph library.",
