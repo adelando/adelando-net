@@ -57,9 +57,9 @@ Open http://localhost:8000. The site rebuilds whenever you save a file; refresh 
 | Branch        | What a push does                                              |
 | ------------- | ------------------------------------------------------------- |
 | `main`        | Builds and deploys the live site, adelando.net                |
-| `development` | Builds a **dev preview** at its own workers.dev address; the live site is untouched |
+| `dev`         | Builds a **dev preview** at https://dev.adelando.net; the live site is untouched |
 
-Work on `development`, check the preview, then merge into `main` to go live. Every other branch also gets its own preview.
+Work on `dev`, check the preview, then merge into `main` to go live. Every other branch also gets its own preview at `<branch>.adelando.net`.
 
 ### One-time Cloudflare setup
 
@@ -73,13 +73,15 @@ In the Cloudflare dashboard open **Workers & Pages → adelando-net → Settings
 | Previews Base | Build command     | `npm run build`         |
 | Previews Base | Deploy command    | `npx wrangler preview`  |
 
-`npx wrangler preview` needs the `previews` block in `wrangler.jsonc` (it's there, and empty on purpose). Each branch gets its own preview at a fixed address:
+`npx wrangler preview` needs the `previews` block in `wrangler.jsonc` (it's there, and empty on purpose).
+
+Then, on the **Domains** tab, set the `adelando.net` custom domain's **Enable for** to **Production and Preview**. A preview's address is `<preview name>.adelando.net`, and the preview name is the branch name, so the `dev` branch previews at:
 
 ```
-https://development-adelando-net.<your-subdomain>.workers.dev
+https://dev.adelando.net
 ```
 
-Preview copies send a `noindex` header (see `public/_headers`), so search engines ignore them.
+It's also reachable at `https://dev-adelando-net.adelando.workers.dev`. Preview copies send a `noindex` header and show a pink "Dev preview" banner (see `public/_headers` and the top of `src/site.js`), so nobody mistakes them for the live site.
 
 ### From your computer
 

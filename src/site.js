@@ -7,8 +7,12 @@ const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const escapeHtml = (s) =>
   String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-/* ── Dev preview banner: only on Cloudflare preview copies (*.workers.dev), never on adelando.net ── */
-if (location.hostname.endsWith(".workers.dev")) {
+/* ── Dev preview banner: only on Cloudflare preview copies, never on the live site ──
+   Previews live at <branch>.adelando.net (e.g. dev.adelando.net) and on workers.dev. */
+const host = location.hostname;
+const isPreview =
+  host.endsWith(".workers.dev") || (host.endsWith(".adelando.net") && host !== "www.adelando.net");
+if (isPreview) {
   const banner = document.createElement("div");
   banner.className = "preview-banner";
   banner.setAttribute("role", "note");

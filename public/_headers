@@ -10,10 +10,12 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
 
-# Dev previews publish the whole site to a workers.dev address for every push to
-# a non-production branch (e.g. development). They are throwaway copies of
-# adelando.net, so keep them out of search results. Each placeholder matches up to
-# the next dot, which covers branch previews, commit previews and the Worker's
-# own workers.dev address. adelando.net itself is untouched.
+# Dev previews: every push to a non-production branch publishes a throwaway copy
+# of the site at <branch>.adelando.net (dev.adelando.net for the dev branch) and
+# on workers.dev. Keep those copies out of search results. Cloudflare adds this
+# header itself on workers.dev but not on custom domains. The live site at
+# adelando.net is untouched, and www simply points search engines at adelando.net.
+https://:preview.adelando.net/*
+  X-Robots-Tag: noindex
 https://:version.:subdomain.workers.dev/*
   X-Robots-Tag: noindex
