@@ -75,15 +75,9 @@ build.mjs    turns the above into dist/
 dist/        the finished site (generated, not committed)
 ```
 
-## Files still to add
+## Drawbridge
 
-These are linked from the site but aren't in the repository yet. Copy them from the old web host into `public/` (the build lists any that are missing):
-
-- `public/images/profile.png`, `dl_ac_server.png`, `dl_cc_server.png`
-- `public/projects/experiment_layers.html`, `visualizer.html`, `17-5_stable.html`, `ai_chat_visualizer.html`
-- `public/projects/drawbridge/` (needs an `index.html`)
-
-Until the images are added the site shows an icon in their place.
+`public/projects/drawbridge/` holds the zip builds only, with no `index.html`, so the Drawbridge card's Downloads button returns a 404 until a page is added there or the card links to the zips directly.
 
 ## Credits
 
