@@ -31,13 +31,44 @@
 
 export default [
   {
+    title: "Homeward",
+    description:
+      "An app for iOS and Android that shows when events fall on your FIFO roster. Add birthdays and events and see which ones you'll have off. Built for FIFO workers by a FIFO worker.",
+    icon: "🏠",
+    accent: "cyan",
+    tags: ["TypeScript", "PWA"],
+    featured: true,
+    links: [
+      { type: "demo", url: "https://homeward.day", label: "Website" },
+      { type: "github", url: "https://github.com/adelando/homeward" },
+    ],
+  },
+  {
+    title: "Gamified Health RPG",
+    description:
+      "Gamify your health with your Garmin stats and level up yourself! Coded with Claude from the ground up.",
+    icon: "⚔️",
+    accent: "magenta",
+    tags: ["Python", "Garmin"],
+    featured: true,
+    links: [{ type: "github", url: "https://github.com/adelando/gamified-health-rpg" }],
+  },
+  {
+    title: "Turnkeeper",
+    description: "A gamified book RPG.",
+    icon: "📖",
+    accent: "purple",
+    tags: ["Python", "RPG"],
+    featured: true,
+    links: [{ type: "github", url: "https://github.com/adelando/Turnkeeper" }],
+  },
+  {
     title: "Palette Forge — Colour Scheme Planner",
     description:
       "A helpful web app for designing colour palette schemes for projects, with colour visibility guidelines. Checks every colour against WCAG contrast levels, with presets, visuals and one-click CSS variables.",
     icon: "🎨",
     accent: "cyan",
     tags: ["HTML", "CSS", "JavaScript"],
-    featured: true,
     links: [{ type: "demo", url: "/projects/palette.html" }],
   },
   {
@@ -47,7 +78,6 @@ export default [
     icon: "▦",
     accent: "magenta",
     tags: ["HTML", "CSS", "JavaScript", "Canvas"],
-    featured: true,
     links: [{ type: "demo", url: "/projects/glyph-painter.html" }],
   },
   {
@@ -57,7 +87,6 @@ export default [
     icon: "🎛️",
     accent: "purple",
     tags: ["HTML", "CSS", "JavaScript", "Audio Visualiser"],
-    featured: true,
     links: [
       { type: "demo", url: "/projects/experiment_layers.html" },
       { type: "github", url: "https://github.com/adelando/webpage-audio-visualizer" },
@@ -70,7 +99,6 @@ export default [
     icon: "🌀",
     accent: "cyan",
     tags: ["HTML", "CSS", "JavaScript", "Audio Visualiser"],
-    featured: true,
     links: [
       { type: "demo", url: "/projects/visualizer.html" },
       { type: "github", url: "https://github.com/adelando/webpage-audio-visualizer" },
