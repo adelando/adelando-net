@@ -57,7 +57,7 @@ export default [
   {
     title: "Turnkeeper",
     description:
-      "A self-hosted reading RPG where every page you turn earns XP. Level up, keep your streak alive with daily and weekly quests, unlock achievements, and watch a pixel-art reading nook fill with the spines of the books you've finished. Runs on a Raspberry Pi with no accounts or cloud.",
+      "A self-hosted reading RPG where every page you turn earns XP. Level up, clear quests, keep your streak alive, and fill a pixel-art bookcase with the books you finish.",
     icon: "📖",
     accent: "purple",
     tags: ["Python", "JavaScript", "PWA", "Self-hosted"],
