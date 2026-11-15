@@ -7,6 +7,15 @@ const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const escapeHtml = (s) =>
   String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
+/* ── Dev preview banner: only on Cloudflare preview copies (*.workers.dev), never on adelando.net ── */
+if (location.hostname.endsWith(".workers.dev")) {
+  const banner = document.createElement("div");
+  banner.className = "preview-banner";
+  banner.setAttribute("role", "note");
+  banner.innerHTML = 'Dev preview: this isn\'t the live site. <a href="https://adelando.net">Go to adelando.net</a>';
+  document.body.prepend(banner);
+}
+
 /* ── Mobile menu ── */
 {
   const toggle = $(".nav-toggle");
