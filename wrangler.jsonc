@@ -3,13 +3,15 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "adelando-net",
   "compatibility_date": "2026-11-01",
-  // Lets Cloudflare give each uploaded version (dev previews) its own URL.
-  "preview_urls": true,
   "assets": {
     "directory": "./dist",
     // /projects serves projects.html; old /projects.html links redirect to it.
     "html_handling": "auto-trailing-slash",
     // Unknown URLs get dist/404.html with a real 404 status.
     "not_found_handling": "404-page"
-  }
+  },
+  // Dev previews (npx wrangler preview, run by Cloudflare for non-production
+  // branches such as development). A static site needs no preview-only
+  // settings, but Cloudflare requires the block to exist.
+  "previews": {}
 }

@@ -63,17 +63,17 @@ Work on `development`, check the preview, then merge into `main` to go live. Eve
 
 ### One-time Cloudflare setup
 
-In the Cloudflare dashboard open **Workers & Pages → adelando-net → Settings → Build** and connect this GitHub repository if it isn't already. Then set:
+In the Cloudflare dashboard open **Workers & Pages → adelando-net → Settings → Builds**, connect this GitHub repository if it isn't already, and fill in both tabs:
 
-| Setting                              | Value                          |
-| ------------------------------------ | ------------------------------ |
-| Build command                        | `npm run build`                |
-| Deploy command                       | `npx wrangler deploy`          |
-| Production branch (Branch control)   | `main`                         |
-| Builds for non-production branches   | **Enabled**                    |
-| Non-production branch deploy command | `npx wrangler versions upload` |
+| Tab           | Setting           | Value                   |
+| ------------- | ----------------- | ----------------------- |
+| Production    | Production branch | `main`                  |
+| Production    | Build command     | `npm run build`         |
+| Production    | Deploy command    | `npx wrangler deploy`   |
+| Previews Base | Build command     | `npm run build`         |
+| Previews Base | Deploy command    | `npx wrangler preview`  |
 
-Cloudflare then posts the preview link on each commit in GitHub, and keeps a fixed address for the branch:
+`npx wrangler preview` needs the `previews` block in `wrangler.jsonc` (it's there, and empty on purpose). Each branch gets its own preview at a fixed address:
 
 ```
 https://development-adelando-net.<your-subdomain>.workers.dev
@@ -85,7 +85,7 @@ Preview copies send a `noindex` header (see `public/_headers`), so search engine
 
 ```bash
 npm run deploy    # publish the live site
-npm run preview   # upload a dev preview without touching the live site
+npm run preview   # upload a dev preview of the current branch without touching the live site
 ```
 
 ## What's in the repo

@@ -6,7 +6,7 @@
     "build": "node build.mjs",
     "dev": "node build.mjs --serve",
     "deploy": "node build.mjs && npx wrangler deploy",
-    "preview": "node build.mjs && npx wrangler versions upload --preview-alias development"
+    "preview": "node build.mjs && npx wrangler preview"
   },
   "engines": {
     "node": ">=18"
