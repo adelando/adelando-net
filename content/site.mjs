@@ -15,7 +15,6 @@ export default {
   nav: [
     { label: "Projects", href: "/projects" },
     { label: "Downloads", href: "/downloads" },
-    { label: "GitHub", href: "/github" },
     { label: "About", href: "/about" },
   ],
 
@@ -77,7 +76,7 @@ export default {
       { icon: "xbox", name: "Xbox", username: "@adeland6", note: "No friend requests.", url: "https://xbox.com/en-AU/play/user/Adeland6" },
       { icon: "steam", name: "Steam", username: "@adelando", note: "No friend requests." },
       { icon: "epic", name: "Epic Games", username: "@adelando", note: "No friend requests." },
-      { icon: "github", name: "GitHub", username: "@adelando", note: "Same as the GitHub page.", url: "https://github.com/adelando" },
+      { icon: "github", name: "GitHub", username: "@adelando", note: "Every public repo is on my Projects page.", url: "https://github.com/adelando" },
     ],
   },
 };

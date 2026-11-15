@@ -1,0 +1,3 @@
+# Cloudflare redirects: "from  to  status". The old GitHub page now lives on the Projects page.
+/github       /projects#github  301
+/github.html  /projects#github  301

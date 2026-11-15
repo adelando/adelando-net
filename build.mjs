@@ -7,7 +7,7 @@
 
 import { createHash } from "node:crypto";
 import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
-import { existsSync, statSync, watch } from "node:fs";
+import { existsSync, readFileSync, statSync, watch } from "node:fs";
 import { createServer } from "node:http";
 import { extname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -116,7 +116,6 @@ async function build() {
     pages.homePage(ctx),
     pages.projectsPage(ctx),
     pages.downloadsPage(ctx),
-    pages.githubPage(ctx),
     pages.aboutPage(ctx),
     pages.notFoundPage(ctx),
   ];
@@ -141,11 +140,24 @@ const TYPES = {
   ".xml": "application/xml", ".txt": "text/plain", ".zip": "application/zip",
 };
 
+// Reads dist/_redirects ("from to status" per line) so the preview matches Cloudflare.
+function redirects() {
+  const file = join(DIST, "_redirects");
+  if (!existsSync(file)) return [];
+  return readFileSync(file, "utf8")
+    .split("\n")
+    .map((l) => l.trim())
+    .filter((l) => l && !l.startsWith("#"))
+    .map((l) => l.split(/\s+/));
+}
+
 function serve(port = 8000) {
   const isFile = (p) => existsSync(p) && statSync(p).isFile();
   createServer(async (req, res) => {
     const path = decodeURIComponent(new URL(req.url, "http://x").pathname);
     if (path.includes("..")) return res.writeHead(400).end();
+    const redirect = redirects().find(([from]) => from === path);
+    if (redirect) return res.writeHead(Number(redirect[2]) || 302, { location: redirect[1] }).end();
     const candidates = [join(DIST, path), join(DIST, path + ".html"), join(DIST, path, "index.html")];
     let file = candidates.find(isFile);
     let status = 200;

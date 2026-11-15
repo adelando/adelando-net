@@ -30,7 +30,7 @@ Open `content/projects.mjs` and paste a new block at the top of the list:
   icon: "🚀",
   accent: "cyan",                  // cyan, magenta or purple
   tags: ["HTML", "JavaScript"],
-  featured: true,                  // optional: show it on the home page
+  featured: true,                  // optional: Featured section + home page
   links: [
     { type: "demo", url: "/projects/my-new-thing.html" },
     { type: "github", url: "https://github.com/adelando/my-new-thing" },

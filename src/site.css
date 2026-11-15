@@ -157,6 +157,10 @@ a.btn-quiet:hover { background: rgb(255 255 255 / 0.1); }
 .section-title { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
 .page-title { font-size: clamp(2.4rem, 6.5vw, 4.6rem); font-weight: 800; letter-spacing: -0.045em; line-height: 0.98; }
 .page-intro { max-width: 60ch; margin-top: 18px; font-size: 1.1rem; color: var(--text-2); }
+.section-intro { margin-top: -12px; margin-bottom: 4px; }
+.page-head { padding-bottom: 0; }
+.jump-links { margin-bottom: 0; }
+.jump-links .icon { margin-right: -2px; }
 .empty-note {
   margin-top: 24px; padding: 28px; border: 1px dashed var(--line-strong);
   border-radius: var(--r); color: var(--text-2);

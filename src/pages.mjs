@@ -120,7 +120,7 @@ export function homePage({ site, projects, downloads }) {
     <div class="hero-actions">
       <a class="btn btn-solid" href="/projects">Browse projects</a>
       <a class="btn btn-line" href="/downloads">${icon("download", 15)}World downloads</a>
-      <a class="btn btn-line" href="/github">${icon("github", 15)}GitHub</a>
+      <a class="btn btn-line" href="/projects#github">${icon("github", 15)}GitHub</a>
     </div>
   </div>
 </section>
@@ -155,42 +155,110 @@ export function homePage({ site, projects, downloads }) {
     <ul class="row-list" data-github-list>
       <li class="skeleton-row"></li><li class="skeleton-row"></li><li class="skeleton-row"></li>
     </ul>
-    <a class="more-link" href="/github">Browse all repositories</a>
+    <a class="more-link" href="/projects#github">Browse all repositories</a>
   </div>
 </section>`;
 
   return { path: "/", file: "index.html", title: "", description: site.home.intro, body };
 }
 
-/* ───────────────────────── Projects ───────────────────────── */
+/* ───────────────────────── Projects (featured, more, GitHub) ───────────────────────── */
 
-export function projectsPage({ projects }) {
-  const tags = [...new Set(projects.flatMap((p) => p.tags))];
-  const body = `<section class="wrap section page-top">
-  <h1 class="page-title">Projects</h1>
-  <p class="page-intro">Things I've built. Each card links to the live demo and the GitHub repo where there is one.</p>
+function githubSection(site) {
+  const profileUrl = `https://github.com/${site.githubUser}`;
+  return `<section class="wrap section" id="github" data-github-page>
+  <div class="section-head">
+    <h2 class="section-title">On GitHub</h2>
+  </div>
+  <p class="page-intro section-intro">Every public repository, loaded live from GitHub so it's always up to date.</p>
+
+  <div class="profile" id="gh-profile" hidden>
+    <img class="profile-avatar" id="gh-avatar" alt="" width="64" height="64">
+    <div class="profile-body">
+      <p class="profile-name" id="gh-name"></p>
+      <p class="profile-bio" id="gh-bio"></p>
+      <p class="profile-meta" id="gh-meta"></p>
+    </div>
+    <a class="btn btn-quiet" href="${profileUrl}" target="_blank" rel="noopener">${icon("github", 15)}View on GitHub</a>
+  </div>
+
+  <div class="toolbar">
+    <label class="search-field">${icon("search", 16)}<span class="visually-hidden">Search repositories</span><input type="search" id="gh-search" placeholder="Search repositories" autocomplete="off"></label>
+    <label><span class="visually-hidden">Language</span><select id="gh-lang"><option value="">All languages</option></select></label>
+    <label><span class="visually-hidden">Sort by</span><select id="gh-sort">
+      <option value="pushed">Recently updated</option>
+      <option value="stars">Most stars</option>
+      <option value="name">Name (A–Z)</option>
+      <option value="created">Newest first</option>
+    </select></label>
+    <span class="toolbar-count" id="gh-count" aria-live="polite"></span>
+  </div>
+
+  <div class="repo-grid" id="gh-grid" aria-busy="true">
+    ${'<div class="repo-card skeleton-card"></div>'.repeat(6)}
+  </div>
+  <p class="empty-note" id="gh-error" hidden>GitHub didn't answer, most likely because it limits how often visitors can ask. Wait a minute and <button type="button" class="text-button" id="gh-retry">try again</button>, or <a href="${profileUrl}" target="_blank" rel="noopener">see the repositories on GitHub</a>.</p>
+  <noscript><p class="empty-note">This list needs JavaScript. You can <a href="${profileUrl}">see the repositories on GitHub</a> instead.</p></noscript>
+</section>`;
+}
+
+export function projectsPage({ site, projects }) {
+  const featured = projects.filter((p) => p.featured);
+  const more = projects.filter((p) => !p.featured);
+  const tags = [...new Set(more.flatMap((p) => p.tags))];
+
+  const featuredSection = featured.length
+    ? `<section class="wrap section" id="featured" aria-labelledby="featured-title">
+  <div class="section-head"><h2 class="section-title" id="featured-title">Featured</h2></div>
+  <div class="project-grid project-grid-3">
+    ${featured.map((p) => projectCard(p, 3)).join("\n")}
+  </div>
+</section>`
+    : "";
+
+  const moreSection = more.length
+    ? `<section class="wrap section" id="more" aria-labelledby="more-title">
+  <div class="section-head"><h2 class="section-title" id="more-title">More projects</h2></div>
+  <p class="page-intro section-intro">Smaller builds and experiments, most with a live demo you can try in the browser.</p>
 
   <div class="filter-bar" role="group" aria-label="Filter projects by tag">
-    <button type="button" class="chip" data-filter="" aria-pressed="true">All <span class="chip-count">${projects.length}</span></button>
+    <button type="button" class="chip" data-filter="" aria-pressed="true">All <span class="chip-count">${more.length}</span></button>
     ${tags
       .map((t) => {
-        const n = projects.filter((p) => p.tags.includes(t)).length;
+        const n = more.filter((p) => p.tags.includes(t)).length;
         return `<button type="button" class="chip" data-filter="${esc(t)}" aria-pressed="false">${esc(t)} <span class="chip-count">${n}</span></button>`;
       })
       .join("\n    ")}
   </div>
 
   <div class="project-grid" id="project-grid">
-    ${projects.map((p) => projectCard(p)).join("\n")}
+    ${more.map((p) => projectCard(p, 3)).join("\n")}
   </div>
   <p class="empty-note" id="filter-empty" hidden>No projects use that tag yet. <button type="button" class="text-button" data-filter-reset>Show all projects</button></p>
-</section>`;
+</section>`
+    : "";
+
+  const body = `<section class="wrap section page-top page-head">
+  <h1 class="page-title">Projects</h1>
+  <p class="page-intro">Things I've built, from the apps I use every day to small experiments, plus everything public on GitHub.</p>
+  <nav class="filter-bar jump-links" aria-label="On this page">
+    ${featured.length ? '<a class="chip" href="#featured">Featured</a>' : ""}
+    ${more.length ? '<a class="chip" href="#more">More projects</a>' : ""}
+    <a class="chip" href="#github">${icon("github", 14)}On GitHub</a>
+  </nav>
+</section>
+
+${featuredSection}
+
+${moreSection}
+
+${githubSection(site)}`;
 
   return {
     path: "/projects",
     file: "projects.html",
     title: "Projects",
-    description: "Personal and open-source projects by Adelando — web apps, audio visualizers, and tools.",
+    description: "Projects by Adelando — Homeward, Gamified Health RPG, Turnkeeper, audio visualizers and tools — plus every public GitHub repository.",
     body,
   };
 }
@@ -269,52 +337,6 @@ export function downloadsPage({ downloads }) {
     file: "downloads.html",
     title: "Downloads",
     description: "Download Minecraft world archives from the Aydaacraft and CreativityCraft servers.",
-    body,
-  };
-}
-
-/* ───────────────────────── GitHub ───────────────────────── */
-
-export function githubPage({ site }) {
-  const profileUrl = `https://github.com/${site.githubUser}`;
-  const body = `<section class="wrap section page-top" data-github-page>
-  <h1 class="page-title">GitHub repositories</h1>
-  <p class="page-intro">Every public repository, loaded live from GitHub so it's always up to date.</p>
-
-  <div class="profile" id="gh-profile" hidden>
-    <img class="profile-avatar" id="gh-avatar" alt="" width="64" height="64">
-    <div class="profile-body">
-      <p class="profile-name" id="gh-name"></p>
-      <p class="profile-bio" id="gh-bio"></p>
-      <p class="profile-meta" id="gh-meta"></p>
-    </div>
-    <a class="btn btn-quiet" href="${profileUrl}" target="_blank" rel="noopener">${icon("github", 15)}View on GitHub</a>
-  </div>
-
-  <div class="toolbar">
-    <label class="search-field">${icon("search", 16)}<span class="visually-hidden">Search repositories</span><input type="search" id="gh-search" placeholder="Search repositories" autocomplete="off"></label>
-    <label><span class="visually-hidden">Language</span><select id="gh-lang"><option value="">All languages</option></select></label>
-    <label><span class="visually-hidden">Sort by</span><select id="gh-sort">
-      <option value="pushed">Recently updated</option>
-      <option value="stars">Most stars</option>
-      <option value="name">Name (A–Z)</option>
-      <option value="created">Newest first</option>
-    </select></label>
-    <span class="toolbar-count" id="gh-count" aria-live="polite"></span>
-  </div>
-
-  <div class="repo-grid" id="gh-grid" aria-busy="true">
-    ${'<div class="repo-card skeleton-card"></div>'.repeat(6)}
-  </div>
-  <p class="empty-note" id="gh-error" hidden>GitHub didn't answer, most likely because it limits how often visitors can ask. Wait a minute and <button type="button" class="text-button" id="gh-retry">try again</button>, or <a href="${profileUrl}" target="_blank" rel="noopener">see the repositories on GitHub</a>.</p>
-  <noscript><p class="empty-note">This list needs JavaScript. You can <a href="${profileUrl}">see the repositories on GitHub</a> instead.</p></noscript>
-</section>`;
-
-  return {
-    path: "/github",
-    file: "github.html",
-    title: "GitHub",
-    description: "All public GitHub repositories by Adelando, fetched live from the GitHub API.",
     body,
   };
 }

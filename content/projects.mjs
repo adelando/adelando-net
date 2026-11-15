@@ -11,7 +11,8 @@
     icon: "🚀",                       // emoji shown on the card
     accent: "cyan",                   // "cyan", "magenta" or "purple"
     tags: ["HTML", "JavaScript"],     // filter buttons are built from these
-    featured: true,                   // optional: show on the home page
+    featured: true,                   // optional: show in the Featured section
+                                      //   of the Projects page and on the home page
     image: "/images/my-shot.png",     // optional: screenshot instead of the emoji
                                       //   (put the file in public/images/)
     links: [
