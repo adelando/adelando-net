@@ -3,6 +3,8 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "adelando-net",
   "compatibility_date": "2026-11-01",
+  // Lets Cloudflare give each uploaded version (dev previews) its own URL.
+  "preview_urls": true,
   "assets": {
     "directory": "./dist",
     // /projects serves projects.html; old /projects.html links redirect to it.

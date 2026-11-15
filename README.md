@@ -54,16 +54,39 @@ Open http://localhost:8000. The site rebuilds whenever you save a file; refresh 
 
 `wrangler.jsonc` tells Cloudflare to serve the `dist/` folder as static files.
 
-**From your computer**
+| Branch        | What a push does                                              |
+| ------------- | ------------------------------------------------------------- |
+| `main`        | Builds and deploys the live site, adelando.net                |
+| `development` | Builds a **dev preview** at its own workers.dev address; the live site is untouched |
 
-```bash
-npm run deploy
+Work on `development`, check the preview, then merge into `main` to go live. Every other branch also gets its own preview.
+
+### One-time Cloudflare setup
+
+In the Cloudflare dashboard open **Workers & Pages → adelando-net → Settings → Build** and connect this GitHub repository if it isn't already. Then set:
+
+| Setting                              | Value                          |
+| ------------------------------------ | ------------------------------ |
+| Build command                        | `npm run build`                |
+| Deploy command                       | `npx wrangler deploy`          |
+| Production branch (Branch control)   | `main`                         |
+| Builds for non-production branches   | **Enabled**                    |
+| Non-production branch deploy command | `npx wrangler versions upload` |
+
+Cloudflare then posts the preview link on each commit in GitHub, and keeps a fixed address for the branch:
+
+```
+https://development-adelando-net.<your-subdomain>.workers.dev
 ```
 
-**Automatically on every push** — in the Cloudflare dashboard, connect this repository to the Worker (Workers Builds) and set:
+Preview copies send a `noindex` header (see `public/_headers`), so search engines ignore them.
 
-- Build command: `npm run build`
-- Deploy command: `npx wrangler deploy`
+### From your computer
+
+```bash
+npm run deploy    # publish the live site
+npm run preview   # upload a dev preview without touching the live site
+```
 
 ## What's in the repo
 

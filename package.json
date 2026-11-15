@@ -5,7 +5,8 @@
   "scripts": {
     "build": "node build.mjs",
     "dev": "node build.mjs --serve",
-    "deploy": "node build.mjs && npx wrangler deploy"
+    "deploy": "node build.mjs && npx wrangler deploy",
+    "preview": "node build.mjs && npx wrangler versions upload --preview-alias development"
   },
   "engines": {
     "node": ">=18"

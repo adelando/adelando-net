@@ -9,3 +9,11 @@
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
+
+# Dev previews publish the whole site to a workers.dev address for every push to
+# a non-production branch (e.g. development). They are throwaway copies of
+# adelando.net, so keep them out of search results. Each placeholder matches up to
+# the next dot, which covers branch previews, commit previews and the Worker's
+# own workers.dev address. adelando.net itself is untouched.
+https://:version.:subdomain.workers.dev/*
+  X-Robots-Tag: noindex
