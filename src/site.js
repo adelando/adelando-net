@@ -112,15 +112,25 @@ const escapeHtml = (s) =>
       }
       for (const chip of chips) chip.setAttribute("aria-pressed", chip.dataset.filter === tag);
       empty.hidden = shown > 0;
-      if (push) history.replaceState(null, "", tag ? `?tag=${encodeURIComponent(tag)}` : location.pathname);
+      if (push) history.replaceState(null, "", (tag ? `?tag=${encodeURIComponent(tag)}` : location.pathname) + location.hash);
     };
 
     for (const chip of chips) chip.addEventListener("click", () => apply(chip.dataset.filter));
     $("[data-filter-reset]")?.addEventListener("click", () => apply(""));
 
-    // /projects?tag=Canvas opens with that filter already applied.
+    // "More projects" starts collapsed. Open it when a link points at it
+    // (#more) or the URL asks for a tag, e.g. /projects?tag=Canvas.
+    const more = $("#more");
+    const openMore = () => { if (more && location.hash === "#more") more.open = true; };
+    openMore();
+    addEventListener("hashchange", openMore);
+    for (const link of $$('a[href="#more"]')) link.addEventListener("click", () => { if (more) more.open = true; });
+
     const initial = new URLSearchParams(location.search).get("tag");
-    if (initial) apply(initial, false);
+    if (initial) {
+      if (more) more.open = true;
+      apply(initial, false);
+    }
   }
 }
 

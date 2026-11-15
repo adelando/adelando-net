@@ -217,9 +217,15 @@ export function projectsPage({ site, projects }) {
     : "";
 
   const moreSection = more.length
-    ? `<section class="wrap section" id="more" aria-labelledby="more-title">
-  <div class="section-head"><h2 class="section-title" id="more-title">More projects</h2></div>
-  <p class="page-intro section-intro">Smaller builds and experiments, most with a live demo you can try in the browser.</p>
+    ? `<section class="wrap section">
+<details class="more-projects" id="more">
+  <summary>
+    <span class="more-summary-text">
+      <h2 class="section-title" id="more-title">More projects <span class="more-count">${more.length}</span></h2>
+      <span class="more-hint">Smaller builds and experiments, most with a live demo you can try in the browser.</span>
+    </span>
+    <span class="more-toggle" aria-hidden="true"><span class="more-toggle-label"></span>${icon("chevron", 18)}</span>
+  </summary>
 
   <div class="filter-bar" role="group" aria-label="Filter projects by tag">
     <button type="button" class="chip" data-filter="" aria-pressed="true">All <span class="chip-count">${more.length}</span></button>
@@ -235,6 +241,7 @@ export function projectsPage({ site, projects }) {
     ${more.map((p) => projectCard(p, 3)).join("\n")}
   </div>
   <p class="empty-note" id="filter-empty" hidden>No projects use that tag yet. <button type="button" class="text-button" data-filter-reset>Show all projects</button></p>
+</details>
 </section>`
     : "";
 
